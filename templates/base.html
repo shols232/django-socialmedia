@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +13,51 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">
 </head>
 <body>
-
+<!--Navbar -->
+<nav style='background-color:#05386B'class="mb-1 py-0 navbar fixed-top  navbar-expand-lg navbar-dark lighten-1">
+  <a class="navbar-brand" href="#">
+    <img src="{% static 'logo/void.png' %}" height="50" width="80px" class="p-0 d-inline-block align-top"
+      alt="Void">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+    aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      
+    </ul>
+    <ul class="navbar-nav nav-flex-icons">
+      <li class="nav-item mr-2">
+        <a class="nav-link" href="#">Notifications</a>
+      </li>
+      <li class="nav-item dropdown avatar">
+        <a class="nav-link p-0 nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+            alt="avatar image" height="35">
+              <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-4">
+                <a class="dropdown-item" href="#">My account</a>
+                <a class="dropdown-item" href="#">Log out</a>
+              </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!--/.Navbar -->
 {% block content %}
   <div style="height: 100vh">
     <div class="flex-center flex-column">
-      <h1 class="animated fadeIn mb-4">MDBootstrap loves Django <i class="fa fa-heart red-text"></i></h1>
+     
     </div>
    </div>
 {% endblock content %}
