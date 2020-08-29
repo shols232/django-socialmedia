@@ -1,0 +1,138 @@
+.image-circle {
+    width: 350px;
+}
+
+.card{
+    background-color:grey;
+}
+.outer-image{
+    display:grid;
+
+}
+
+.image-text-box{
+    text-align: center;
+    width:170px;
+    font-size:20px;
+    color:#05386B;
+}
+
+.image-circle > img {
+    width: 170px;
+    height:170px;
+    border-radius:50%;
+    border:3px rgb(14, 99, 121) solid;
+}
+
+.follow-box{
+    display: inline-block;
+    width: 300px;
+}
+
+.image-text-box > p {
+    font-weight:bold;
+    font-size: 20px;
+}
+
+.follow-text{
+    padding:10px;
+    margin-right:5px;
+}
+
+.follow-text  div{
+    display: inline-block;
+    padding:6px;
+    font-weight:bold;
+    margin-right:5px;
+}
+
+.follow-text > .rounded > span {
+    color: rgb(76, 189, 218);
+    font-size:20px;
+}
+
+
+
+.bio-container{
+    height: 350px;
+    display: grid;
+    align-content: center;
+    width:100%;
+    /* padding: 5% 0;
+    margin-right:5%; */
+}
+
+@media only screen and (max-width: 767px) {
+    .image-circle {
+        display: grid;
+        justify-content: center;
+    }
+
+    .outer-image {
+        display: grid;
+        justify-content: center;
+    }
+
+    .follow-box{
+        width:100%;
+        margin-left: 0;
+        display: grid;
+        justify-content: center;
+    }
+    .bio-container{
+        height:100%;
+    }
+    .bio > h2 {
+        display: grid;
+        justify-content: center;
+  }
+}
+
+
+.bio {
+    height:70%;
+    font-family: 'Courier', 'Courier New', monospace, sans-serif;
+    /* padding:5% 0 15% 0; */
+}
+
+.bio > h2 {
+    font-size: 22px;
+    font-family:'Gill Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.bio-text > p {
+    font-size:17px;
+    font-family: 'Courier', 'Courier New', monospace, sans-serif;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.bio-text {
+    border-radius: 3px;
+    border-right:4px solid #05386B;
+    border-bottom:4px solid #05386B;
+    margin-right:9px;
+
+}
+
+.fa-user-edit{
+    margin: 0 0 0 200px;
+}
+
+.btn-indigo-new{
+    padding: .76rem 2.05rem;;
+    background-color:#05386B;
+    font-weight: bold;
+    color:rgba(105, 140, 143, 0.959);
+    font-size:17px;
+    border-radius:27px;
+    margin-right:35px;
+    margin-bottom:20px;
+}
+
+.followed{
+    font-size:15px;
+    font-weight: bolder;
+    border:2.5px solid#05386B;
+    color:#05386B;
+    background-color:rgba(97, 92, 92, 0.281);
+}
