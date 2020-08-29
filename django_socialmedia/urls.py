@@ -17,14 +17,15 @@ from django.contrib import admin
 from django.urls import path,include
 from django import views
 from django.shortcuts import render
-
-def home(request):
-    return render(request, 'base.html')
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),
+   # path('', home),
     path('account/', include('account.urls')),
    # path('google/', include('allauth.urls'))
-   path('social-auth/',include('social_django.urls', namespace='social'))
-]
+   path('social-auth/',include('social_django.urls', namespace='social')),
+   
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

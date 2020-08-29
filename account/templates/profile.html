@@ -1,7 +1,95 @@
-{% load static %}
 {% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock header %}
 
 {% block content %}
-
+        <div class="card mx-auto" style="width:70%">
+            <div class="row">
+                <div class="col-md-4 mt-2 m-3">
+                    <div class="outer-image">
+                    <div class="image-circle">
+                        <img src="{{ user.profile.image.url }}" 
+                        class="" alt="profile">
+                        <div class="image-text-box"><p>@{{ user.username }}</p></div>
+                    </div>
+                </div>
+                    <div class="follow-box">
+                        <div class="follow-text">
+                            <div class="rounded"><span>{{ followers_count }}</span> Followers</div>
+                            <div class="rounded"><span>{{ following_count }}</span> Following</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bio-container ml-auto col-sm-12 col-md-7">
+                    <div class="bio ml-3">
+                        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                        <div class="bio-text">
+                            <p class="pl-3">{{ user.profile.bio }}</p>
+                        </div>
+                    </div>
+                </div>
+                    {% if owner %}
+                    <button type="button" class="ml-auto btn btn-indigo-new">Edit</button>
+                    {% else %}
+                    {% if follows %}
+                    <button type="button" id="follow-btn" 
+                    class="ml-auto followed btn btn-indigo-new">
+                        {% if follows %}Unfollow{% else %}Follow{% endif %}
+                    </button>
+                    {% else %}
+                    <button type="button" id="follow-btn" 
+                    class="ml-auto btn btn-indigo-new">
+                        {% if follows %}Unfollow{% else %}Follow{% endif %}
+                    </button>
+                    {% endif %}
+                    {% endif %}
+            </div>
+        </div>
 
 {% endblock content %}
+
+{% block js %}
+
+        <script type="text/javascript">
+            var followBtn = document.getElementById("follow-btn")
+            followBtn.addEventListener('click', function(){
+                var currentState = followBtn.value
+                console.log('{{action}}', followBtn.innerText)
+                var action = '{{action}}'
+                var user_id = '{{user.id}}'
+                var request_user_id = '{{request_user_id}}'
+                var url = '/follow_unfollow/'
+                fetch(url, {
+                method:'POST',
+                headers:{
+                    "Content-Type":'application/json',
+                    "X-CSRFToken":csrftoken,
+                },
+                body:JSON.stringify({
+                    'request_user_id':request_user_id,
+                    'user_id':user_id,
+                    'action':action
+                    })
+                })
+                .then((resp) => {
+                    return resp.json()
+                })
+                .then((response)=>{
+                    if (response.status == 'success'){
+                        if(followBtn.innerText == 'FOLLOW'){
+                            followBtn.innerText = 'Unfollow'
+                            followBtn.classList.add('followed')
+                            
+                        }else{
+                            followBtn.innerText = 'Follow'
+                            followBtn.classList.remove('followed')
+                        }
+                    }
+                })
+            })
+        </script>
+
+{% endblock js %}
