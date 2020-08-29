@@ -6,8 +6,10 @@ from .forms import RegisterForm
 
 def register(request):
     if request.method == 'POST':
+        if request.POST.has_key:
+            request.session.set_expiry(1209600)
         form = RegisterForm(request.POST)
     else:
         form = RegisterForm()
-    return render(request, 'register.html',{'form':form})
+    return render(request, 'account/register.html',{'form':form})
     

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block navbar %}
+    
+{% endblock navbar %}
+    
+{% block content %}
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=416793205963376&autoLogAppEvents=1" nonce="4vxGoeV2"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+    <div class="content-section">
+        <form action="" method="post">
+            {% csrf_token %}
+            <fieldset class="form-group"></fieldset>
+            <legend class="border-bottom mb-4">Create an account with Void</legend>
+            {{ form|crispy }}
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
+                <li class="google">
+                    <a href="{% url "social:begin" "google-oauth2" %}">Login with
+                    Google</a>
+                    </li>
+            </div>
+        </form>
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Or...<a class="ml-2" href="{% url 'login' %}"> Sign in  with an existing account</a>
+        </small>
+    </div>
+</div>
+</div>
+</div>
+       
+{% endblock content %}
+    

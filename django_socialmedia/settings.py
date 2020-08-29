@@ -26,7 +26,7 @@ SECRET_KEY = '&819oc-dzk1yjd!eq3kt!v9j)xz6%b3bw%b%dgx-ll5qejj5$o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -44,6 +44,12 @@ INSTALLED_APPS = [
 
     # third party
     'crispy_forms',
+    'social_django',
+    'django_extensions',
+    # 'allauth',  
+    # 'allauth.account',   
+    # 'allauth.socialaccount',   
+    # 'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +135,32 @@ STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+#  'django.contrib.auth.backends.ModelBackend',
+#  'allauth.account.auth_backends.AuthenticationBackend',
+#  )
+
+# Facebook App ID
+# SITE_ID = 1
+# LOGIN_REDIRECT_URL = '/'
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         }
+#     }
+# }
+)
+SOCIAL_AUTH_FACEBOOK_KEY = '416793205963376' 
+SOCIAL_AUTH_FACEBOOK_SECRET = '6f887c723205fc73d87d215db81ffa0d'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '537833100881-16n0qhq5e739d170f4s6t59s25kj6cdp.apps.googleusercontent.com' # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'hxph7Dt1TA3CbXeqw3jODv35' # Google Consum

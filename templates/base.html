@@ -14,6 +14,11 @@
 </head>
 <body>
 <!--Navbar -->
+
+{% block navbar %}
+  
+
+  
 <nav style='background-color:#05386B'class="mb-1 py-0 navbar fixed-top  navbar-expand-lg navbar-dark lighten-1">
   <a class="navbar-brand" href="#">
     <img src="{% static 'logo/void.png' %}" height="50" width="80px" class="p-0 d-inline-block align-top"
@@ -53,6 +58,7 @@
     </ul>
   </div>
 </nav>
+{% endblock navbar %}
 <!--/.Navbar -->
 {% block content %}
   <div style="height: 100vh">
