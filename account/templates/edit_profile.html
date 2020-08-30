@@ -7,32 +7,32 @@
 
 {% block content %}
 
-<div className="container">
-    <div className="Back">
-         <i className="fa fa-arrow-left" onClick={window.history.back}></i>
+<div class="container">
+    <div class="Back">
+         <i class="fa fa-arrow-left" onClick={window.history.back}></i>
      </div>
-     <p className="h2 text-center">Form</p>
-     <form onSubmit={this.onProfileUpdateFormSubmit} action="" method="post">
-         <div className="preview text-center">
-             <img className="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200"/>
-             <div className="browse-button">
-                 <i className="fa fa-pencil-alt"></i>
-                 <input onChange={this.handleInputChange} className="browse-input" type="file" name="UploadedFile" id="UploadedFile"/>
+     <p class="h2 text-center">Form</p>
+     <form action="" method="post">
+         <div class="preview text-center">
+             <img class="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200"/>
+             <div class="browse-button">
+                 <i class="fa fa-pencil-alt"></i>
+                 <input class="browse-input" type="file" name="UploadedFile" id="UploadedFile"/>
              </div>
-             <span className="Error"></span>
+             <span class="Error"></span>
          </div>
-         <div className="form-group">
+         <div class="form-group">
              <label>Username:</label>
-             <input onChange={this.handleInputChange} className="form-control" type="text" name="username" value={this.state.username} required placeholder="Enter Your Full Name"/>
-             <span className="Error"></span>
+             <input class="form-control" type="text" name="username" value={this.state.username} required placeholder="Enter Your Full Name"/>
+             <span class="Error"></span>
          </div>
-         <div className="form-group">
+         <div class="form-group">
              <label>Bio:</label>
-             <input onChange={this.handleInputChange} className="form-control" type="text" name="bio" value={this.state.bio} placeholder="Your Bio"/>
-             <span className="Error"></span>
+             <input class="form-control" type="text" name="bio" value={this.state.bio} placeholder="Your Bio"/>
+             <span class="Error"></span>
          </div>
-         <div className="form-group">
-             <input className="btn btn-primary btn-block" type="submit" value="Submit"/>
+         <div class="form-group">
+             <input class="btn btn-primary btn-block" type="submit" value="Submit"/>
          </div>
      </form>
  </div>   
