@@ -1,8 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import RegisterForm
 from django.contrib.auth.models import User
 from .models import UserFollowing
 from django.http import JsonResponse
 import json
+# Create your views here.
+
+def register(request):
+    if request.method == 'POST':
+        if request.POST.has_key:
+            request.session.set_expiry(1209600)
+        form = RegisterForm(request.POST)
+    else:
+        form = RegisterForm()
+    return render(request, 'account/register.html',{'form':form})
+
 
 def profile(request, id):
     request_user = request.user
