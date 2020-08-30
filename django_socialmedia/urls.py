@@ -19,10 +19,10 @@ from django import views
 from django.shortcuts import render
 from django.conf import settings
 from django.conf.urls.static import static
-
+from account import views as user_view
 urlpatterns = [
     path('admin/', admin.site.urls),
-   # path('', home),
+    path('', user_view.home, name = 'home'),
     path('account/', include('account.urls')),
    # path('google/', include('allauth.urls'))
    path('social-auth/',include('social_django.urls', namespace='social')),
