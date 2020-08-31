@@ -139,7 +139,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
+   'django.contrib.auth.backends.ModelBackend',
 #  'allauth.account.auth_backends.AuthenticationBackend',
 #  )
 
@@ -165,11 +165,15 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '537833100881-16n0qhq5e739d170f4s6t59s25kj6cdp.apps.googleusercontent.com' # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'hxph7Dt1TA3CbXeqw3jODv35' # Google Consum
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
-MAILER_EMAIL_BACKEND = EMAIL_BACKEND  
-EMAIL_HOST = 'your_mail_server'  
-EMAIL_HOST_PASSWORD = 'your_password'  
-EMAIL_HOST_USER = 'your_email'  
-EMAIL_PORT = 465  
-EMAIL_USE_SSL = True  
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  
+# EMAIL_USE_TLS = True
+# MAILER_EMAIL_BACKEND = EMAIL_BACKEND  
+# EMAIL_HOST = 'smtp.gmail.com'  
+# EMAIL_HOST_PASSWORD = 'your_password'  
+# EMAIL_HOST_USER = 'your_email'  
+# EMAIL_PORT = 465  
+# EMAIL_USE_SSL = True  
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login'

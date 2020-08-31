@@ -49,10 +49,10 @@
       <li class="nav-item dropdown avatar">
         <a class="nav-link p-0 nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
-          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-            alt="avatar image" height="35">
+          <img src="{{ request.user.profile.image.url }}" style="margin-top:10px;" class="rounded-circle z-depth-0"
+            alt="avatar image" height="25" width="25">
               <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-4">
-                <a class="dropdown-item" href="#">My account</a>
+                <a class="dropdown-item" href="{% url 'profile' request.user.id %}">My account</a>
                 <a class="dropdown-item" href="#">Log out</a>
               </div>
         </a>

@@ -19,6 +19,7 @@
             <div class="card-body">
     <div class="content-section">
         <form action="" method="post">
+
             <div class="form-group">
             {% csrf_token %}
             <fieldset class="form-group"></fieldset>
@@ -32,16 +33,17 @@
               </div>
                 <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
                 <hr class="my-4">
-                
+             
+            </form>
             </div>
-        </form>
-        <a href="{% url "social:begin" "google-oauth2" %}"><button  name = "f-auth" class="btn btn-lg btn-google btn-block text-uppercase"><i class="fab fa-google mr-2"></i> Sign in with Google</button></a> 
+             
+        <a href="{% url "social:begin" "google-oauth2" %} " target="_blank"><button  name = "f-auth" class="btn btn-lg btn-google btn-block text-uppercase"><i class="fab fa-google mr-2"></i> Sign in with Google</button></a> 
         <br>
-        <a href="{% url "social:begin" "facebook" %}">
+        <a href="{% url "social:begin" "facebook" %}" target="_blank">
             <button class="btn btn-lg btn-facebook btn-block text-uppercase" ><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button></a>
     </div>
     <div class="border-top pt-3">
-      <center>  <small class="text-muted">
+      <center>  <a href="{% url "reset_password" %}">Forgotten your password?</a> <br> <small class="text-muted">
            Dont have an account yet?<a class="ml-2" href="{% url 'register' %}"> Create a new Void account</a>
         </small> </center>
         
