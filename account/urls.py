@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name="account/login.html"), name="login"),
     path('logout/', auth_views.LogoutView.as_view(template_name="account/logout.html"), name="logout"),
 
+     path('activation_mail/', user_views.send_mail, name = "mail_sent"),
     path('activate/<uidb64>/<token>/', user_views.activate, name='activate'),
    
     # Password Reset
