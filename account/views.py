@@ -33,6 +33,7 @@ def register(request):
                 
             })
             user.email_user(subject,message)
+
             # if request.POST.has_key:
             #     request.session.set_expiry(1209600)
             return redirect('mail_sent')
@@ -82,7 +83,7 @@ def profile(request, id):
 def home(request):
     return render(request, "account/home.html")
 
-    
+
 def follow_action(request):
     data = json.loads(request.body)
     following_user_id = data.get('request_user_id')
