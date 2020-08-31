@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import RegisterForm
+from django.contrib.auth.decorators import login_required
+from .forms import RegisterForm, UpdateUserForm, ProfileUpdateForm
 from django.contrib.auth.models import User
 from .models import UserFollowing
+from django.urls import reverse
 from django.http import JsonResponse
 import json
 # Create your views here.
@@ -20,18 +22,46 @@ def register(request):
 def profile(request, id):
     request_user = request.user
     user = User.objects.get(id=id)
-    follows = user.followers.filter(following_user_id=request_user).exists()
+    follows = user.followers.filter(following_user_id=request_user, user_id=user).exists()
     followers_count = user.followers.count()
     following_count = user.following.count()
     owner = False
     if request_user == user:
         owner = True
+    print(request_user)
+    print(user.followers.all())
+    print(follows)
     if follows:
         action = 'Unfollow'
     else:
         action = 'Follow'
     return render(request, 'profile.html', {'user':user, 'owner':owner, 'following_count':following_count, 
         'followers_count':followers_count, 'action':action, 'request_user_id':request_user.id, 'follows':follows})
+
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    profile = request.user.profile
+    if request.method == "POST":
+        print(request.POST)
+        u_form = UpdateUserForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid():
+            p_form.save()
+            u_form.save()
+            messages.success(request, f'Your Profile Has Successfully Been Updated' )
+            return redirect(reverse('profile', kwargs={'id':user.id}))
+    # else:
+    #     user = request.user
+    #     profile = request.user.profile
+
+    context = {
+
+        "user": user,
+        "profile": profile,
+    }
+    return render(request, "edit_profile.html", context)
 
 def follow_action(request):
     data = json.loads(request.body)
