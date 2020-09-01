@@ -32,7 +32,7 @@
                     </div>
                 </div>
                     {% if owner %}
-                    <button type="button" class="ml-auto btn btn-indigo-new">Edit</button>
+                    <button type="button" onclick="editProfile()" class="ml-auto btn btn-indigo-new">Edit</button>
                     {% else %}
                     {% if follows %}
                     <button type="button" id="follow-btn" 
@@ -54,6 +54,10 @@
 {% block js %}
 
         <script type="text/javascript">
+            function editProfile(){
+                window.location.href = '{% url "edit_profile" %}'
+            }
+            
             var followBtn = document.getElementById("follow-btn")
             followBtn.addEventListener('click', function(){
                 var currentState = followBtn.value
@@ -61,7 +65,7 @@
                 var action = '{{action}}'
                 var user_id = '{{user.id}}'
                 var request_user_id = '{{request_user_id}}'
-                var url = '/follow_unfollow/'
+                var url = 'follow_unfollow/'
                 fetch(url, {
                 method:'POST',
                 headers:{
