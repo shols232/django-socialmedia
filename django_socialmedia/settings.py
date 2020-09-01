@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'social_django',
     'django_extensions',
+    'emoji',
+    'emoji_picker'
     # 'allauth',  
     # 'allauth.account',   
     # 'allauth.socialaccount',   

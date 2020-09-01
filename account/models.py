@@ -6,6 +6,9 @@ class Profile(models.Model):
     bio = models.CharField(max_length=350)
     image = models.ImageField()
 
+    def __str__(self):
+        return self.user.username
+
 
 
 class UserFollowing(models.Model):
