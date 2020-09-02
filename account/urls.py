@@ -7,7 +7,8 @@ urlpatterns = [
     # Auth login and register
     path('register/', user_views.register, name = "register"),
     path('login/', auth_views.LoginView.as_view(template_name="account/login.html"), name="login"),
-    path('logout/', auth_views.LogoutView.as_view(template_name="account/logout.html"), name="logout"),
+    #path('logout/', auth_views.LogoutView.as_view(),{'next_page': '/account/login'}, name="logout"),
+    path('logout/', user_views.logout_view, name = "logout"),
 
      path('activation_mail/', user_views.send_mail, name = "mail_sent"),
     path('activate/<uidb64>/<token>/', user_views.activate, name='activate'),
