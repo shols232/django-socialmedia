@@ -17,15 +17,20 @@
         border-radius: 5px;
     }
     #card{
-        background-color: #EDF5E1;
+        
     }
-
+    .test{
+        background-color: #e9ebee;
+    }
+    .inline{
+        float: right;
+    }
 
 </style>
 <div class="row">
-<aside class="col-sm-2" ">
+<aside class="col-sm-2 test">
 </aside> 
-<aside class="col-sm-6" id="test">
+<aside class="col-sm-6 test">
   <div class="post">
 
 
@@ -71,21 +76,33 @@
             <a class="bg-blue" href="{% url 'profile' content.author.id %}">
             @{{ content.author.username }}</a>
             <br>
-          <h4> <span class="emoji">{{ content.content }}</span></h4> 
-            <p class="date">
-                {{ content.posted  | timesince }} ago
-            </p>
+           <small>{{ content.posted  | timesince }}
+            <i class="fas fa-clock "></i></small>
+                <hr>
+          <h4> <span class="emoji">{{ content.content }}</span></h4> <br>
+            <hr>
+          
+         
+          
+            <div class="inline text-right">
+                <i class="fas fa-thumbs-up fa-2x" style="color:#2196F3"></i>
+            </div>
+            <div class="">
+                <i class="far fa-comment fa-2x " style="color:#2196F3"></i>	
+            </div>
+           
+            <br>
         </div>
     </div>
 </div>
 </div>
-<br> <br>
+<br> 
 {% endfor %}
 
 
 </aside>
 
-<aside class="col-sm-4">
+<aside class="col-sm-4 test" >
 </aside>
 </div>
 
