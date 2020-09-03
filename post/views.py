@@ -9,7 +9,7 @@ class ContentCreateListView(LoginRequiredMixin,CreateView, ListView):
     model = Content
     context_object_name = 'contents'
     # paginate_by = 5
-    fields = ['content']
+    fields = ['content','image_content']
     success_url = '/post'
    # ordering = ["-posted"]
     template_name = 'post/content.html'
@@ -23,9 +23,9 @@ class ContentCreateListView(LoginRequiredMixin,CreateView, ListView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['tag_line'] = 'Add a new post'
-        return data
+        context = super().get_context_data(**kwargs)
+        context['tag_line'] = 'Add a new post'
+        return context
 
 class ContentCreateView(LoginRequiredMixin,CreateView):
     model = Content

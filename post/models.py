@@ -10,6 +10,7 @@ class Content(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     posted = models.DateTimeField(default=timezone.now)
     likes = models.IntegerField(default=0)
+    image_content = models.ImageField(upload_to='content/', blank=True, null=True, default = None)
 
     # @property
     # def format_time(self):

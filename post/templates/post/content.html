@@ -3,30 +3,13 @@
 {% load crispy_forms_tags %}
 
 {% block header %}
-<link rel="stylesheet" href= "{% static 'css/test.css' %}">
-
+<link rel="stylesheet" href= "{% static 'css/content.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 {% endblock header %}
 
 {% block content %}
 
-<style>
-    .emoji{
-        font-family: "Segoe UI Emoji";
-    }
-    #border{
-        border-radius: 5px;
-    }
-    #card{
-        
-    }
-    .test{
-        background-color: #e9ebee;
-    }
-    .inline{
-        float: right;
-    }
-
-</style>
 <div class="row">
 <aside class="col-sm-2 test">
 </aside> 
@@ -34,30 +17,67 @@
   <div class="post">
 
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% for field in form %}
+
         <p>
             <fieldset class="form-group">
-              
-                <textarea name="{{ field.name }}" id="id_{{ field.name }}"class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea> 
-                </fieldset>
-                <script>
-                    $(document).ready(function(){
-                        $("#id_{{ field.name }}").emojioneArea({
-                            pickerPosition: "bottom"
-                        });
-                    })
+             <textarea name="{{form.content.name}}" id="id_{{form.content.name}}" class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea>
+           
+            </fieldset>
+            <div>
+            <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image" accept="image/*">
+            <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup">
+                add_photo_alternate
+                </span></label>
+             </div>
+           
+                    <script>
+                        $(document).ready(function(){
+                            $("#id_{{form.content.name}}").emojioneArea({
+                                pickerPosition: "bottom"
+                            });
+                        }) 
+                        
                 </script>
+
         {% for error in field.errors %}
         <p style="color: red">{{ error }}</p>
         {% endfor %}
         </p>
-        {% endfor %}
+
+        
         <div class="text-right">
         <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
          </div>
     </form>  
+    <script>
+$(document).ready(function(){
+
+$('#border').click(function(){
+    var fd = new FormData();
+    var files = $('#id_image_content')[0].files[0];
+    fd.append('file', files);
+
+    $ajax({
+        url: '/post',
+        type:'post',
+        data: fd,
+        contentType: false,
+        processData:false,
+        success: function(response){
+            if(response !=0){
+                $('#img').attr("src", response);
+                $('.preview img').show()
+            }else{
+                alert('file not uploaded');
+            }
+        }
+    })
+})
+
+})
+    </script>
 </div>
 
 
@@ -79,7 +99,13 @@
            <small>{{ content.posted  | timesince }}
             <i class="fas fa-clock "></i></small>
                 <hr>
-          <h4> <span class="emoji">{{ content.content }}</span></h4> <br>
+          <h4> <span class="emoji">{{ content.content }} 
+          {% if content.image_content %}
+          <img src="  {{content.image_content.url}}"  
+    alt="avatar image" height="100" width="100">
+        
+          {% endif %}
+               </span></h4> <br>
             <hr>
           
          
