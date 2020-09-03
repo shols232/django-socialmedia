@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+    <script src="https://use.typekit.net/hoy3lrg.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/css/mdb.min.css" rel="stylesheet">
+    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+
+<body>
+  <div id="frame">
+    <div id="sidepanel">
+      <div id="profile">
+        <div class="wrap">
+          <img id="profile-img" src="{{ request.user.profile.image.url }}" class="online" alt="" />
+          <p>{{ request.user.username }}</p>
+          <div id="status-options">
+            <ul>
+              <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+              <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+              <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+              <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="search">
+        <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+        <input type="text" placeholder="Search contacts..." />
+      </div>
+      <div id="contacts">
+        <ul id="contacts-ul">
+          {% for chat in chats %}
+          <li  data-chatId='{{ chat.id }}' id="chat-{{chat.id}}" class="contact active">
+            <div class="wrap">
+              <span class="contact-status busy"></span>
+              {% ifequal request.user.username chat.user_one.user.username %}
+              <img src="{{ chat.user_two.user.profile.image.url }}" alt="" />
+              <div class="meta">
+                <p class="name">{{chat.user_two.user.username}}</p>
+              {% else %}
+              <img src="{{ chat.user_one.user.profile.image.url }}" alt="" />
+              <div class="meta">
+                <p class="name">{{chat.user_one.user.username}}</p>
+              {% endifequal %}
+              <p class="preview">{{chat.last_message}}</p>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div id="bottom-bar">
+        <button id="addcontact" type="button" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+        <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+      </div>
+    </div>
+    <div class="content">
+      {% if room_name_json %}
+      <div class="contact-profile">
+        <img src="{{ request.user.profile.image.url }}" alt="" />
+        <p>{{ request.user.username }}</p>
+      </div>
+      {% endif %}
+      <div class="messages">
+        <ul id="chat-log">
+          <!-- chat list items go in here -->
+        </ul>
+      </div>
+      <div class="message-input">
+        <div class="wrap">
+        <input id="chat-message-input" type="text" placeholder="Write your message..." />
+        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+        <button id="chat-message-submit" class="submit">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+        </button>
+        </div>
+      </div>
+    </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+
+  <!-- Add .modal-dialog-centered to .modal-dialog to vertically center the modal -->
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Contacts</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan active-cyan-2 mt-2">
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input id="suggestion" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+            aria-label="Search">
+        </form>
+          <div class='users-container hide-users'>
+            <ul class="ul">
+              
+            </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+        
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+<script src="{% static 'main.js' %}"></script>
+<script src="{% static 'reconnecting_websockets.js' %}"></script>
+
+<script>
+
+$(document).ready( function(){
+  $('#suggestion').keyup(function(){
+      var query;
+      query = $(this).val();
+      $.get('/chat/users/listall/', {suggestion: query},   function(data){
+        $('.users-container').removeClass('hide-users')
+        $('.users-container .ul').html('')
+          for (var i=0; i<data.length; i++){
+            console.log(data)
+            $('.users-container .ul').append(
+              `<li  data-chatId=${data[i].id} onclick="userAddChat(this)" class="contact active">
+                <div class="card">
+                  <img src="${data[i].image_url}" alt="" />
+                  <div class="meta">
+                    <p class="name">${data[i].username}</p>
+                  </div>
+                </div>
+              </li>`
+            )
+          }
+          // $('#user').html(data);
+      });
+  });
+});
+
+function userAddChat(e){
+  console.log(e.dataset, e.data)
+  var id = e.dataset.chatid
+  console.log(id)
+
+  $.get('/chat/create/new/', {'userid': id},   function(data){
+    window.location.reload()
+  })
+}
+
+</script>
+
+
+{% if room_name_json %}
+<script>
+  var roomName = {{ room_name_json }};
+  var username = {{ username }};
+</script>
+<script src="{% static 'socket_main.js' %}">
+</script>
+{% else %}
+<script>
+
+
+
+var contact = document.querySelectorAll('.contact')
+  contact.forEach(item => {
+    item.addEventListener('click', function(e){
+      window.location.replace(window.location.origin + `/chat/${item.dataset.chatid}`)
+    });
+  })
+
+
+</script>
+{% endif %}
+</body>
+
+</html>

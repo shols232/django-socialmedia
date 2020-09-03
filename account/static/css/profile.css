@@ -3,7 +3,11 @@
 }
 
 .card{
+<<<<<<< HEAD
     background-color:rgba(105, 140, 143, 0.959);
+=======
+    background-color:#dbf1e5;
+>>>>>>> 3f83bbcfbdf1f99fe17a5a5ad393ea45d381a4f2
 }
 .outer-image{
     display:grid;
@@ -136,3 +140,35 @@
     color:#05386B;
     background-color:rgba(97, 92, 92, 0.281);
 }
+
+.divider {
+    display:grid;
+    padding-top:15px;
+    grid-template-columns:32% 32% 32%;
+    height:200px;
+    width:90%;
+    margin: 0 auto;
+    border-top: 2px solid rgb(20, 220, 53);
+}
+
+.pad{
+    margin-right:2%
+}
+
+/* .divider a:active{
+    border-bottom: 3px solid #05386B;
+} */
+
+
+.profile-tabs{
+    text-align: center;
+    font-weight:bolder;
+    height:30px; 
+    border-bottom: 3px solid #05386B;
+}
+
+.profile-tabs:hover{
+    color:#66169b;
+    border-bottom: 3px solid #66169b;
+}
+
