@@ -26,7 +26,6 @@
         <div class="wrap">
           <img id="profile-img" src="{{ request.user.profile.image.url }}" class="online" alt="" />
           <p>{{ request.user.username }}</p>
-          <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
           <div id="status-options">
             <ul>
               <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
@@ -34,14 +33,6 @@
               <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
               <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
             </ul>
-          </div>
-          <div id="expanded">
-            <label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="mikeross" />
-            <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="ross81" />
-            <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="mike.ross" />
           </div>
         </div>
       </div>
@@ -80,7 +71,7 @@
       {% if room_name_json %}
       <div class="contact-profile">
         <img src="{{ request.user.profile.image.url }}" alt="" />
-        <p>{{ username }}</p>
+        <p>{{ request.user.username }}</p>
       </div>
       {% endif %}
       <div class="messages">
