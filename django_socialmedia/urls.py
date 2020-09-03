@@ -23,6 +23,7 @@ from account import views as user_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_view.home, name = 'home'),
+    path('chat/', include('chatapp.urls', namespace='chatapp')),
     path('account/', include('account.urls')),
    # path('google/', include('allauth.urls'))
    path('social-auth/',include('social_django.urls', namespace='social')),

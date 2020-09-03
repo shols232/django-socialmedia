@@ -47,53 +47,60 @@
                     {% endif %}
                     {% endif %}
             </div>
+            <div class='divider'>
+                <a href="#" class='profile-tabs pad'>Latest Posts</a>
+                <a href="#" class='profile-tabs pad'>Mentions</a>
+                <a href="#" class='profile-tabs'>Images&Videos</a>
+            </div>
         </div>
 
 {% endblock content %}
 
 {% block js %}
 
-        <script type="text/javascript">
-            function editProfile(){
-                window.location.href = '{% url "edit_profile" %}'
-            }
-            
-            var followBtn = document.getElementById("follow-btn")
-            followBtn.addEventListener('click', function(){
-                var currentState = followBtn.value
-                console.log('{{action}}', followBtn.innerText)
-                var action = '{{action}}'
-                var user_id = '{{user.id}}'
-                var request_user_id = '{{request_user_id}}'
-                var url = 'follow_unfollow/'
-                fetch(url, {
-                method:'POST',
-                headers:{
-                    "Content-Type":'application/json',
-                    "X-CSRFToken":csrftoken,
-                },
-                body:JSON.stringify({
-                    'request_user_id':request_user_id,
-                    'user_id':user_id,
-                    'action':action
-                    })
-                })
-                .then((resp) => {
-                    return resp.json()
-                })
-                .then((response)=>{
-                    if (response.status == 'success'){
-                        if(followBtn.innerText == 'FOLLOW'){
-                            followBtn.innerText = 'Unfollow'
-                            followBtn.classList.add('followed')
-                            
-                        }else{
-                            followBtn.innerText = 'Follow'
-                            followBtn.classList.remove('followed')
-                        }
-                    }
-                })
+<script type="text/javascript">
+    function editProfile(){
+        window.location.href = '{% url "edit_profile" %}'
+    }
+    
+    var followBtn = document.getElementById("follow-btn")
+    followBtn.addEventListener('click', function(){
+        var currentState = followBtn.value
+        console.log('{{action}}', followBtn.innerText)
+        var action = '{{action}}'
+        var user_id = '{{user.id}}'
+        var request_user_id = '{{request_user_id}}'
+        var url = 'follow_unfollow/'
+        fetch(url, {
+        method:'POST',
+        headers:{
+            "Content-Type":'application/json',
+            "X-CSRFToken":csrftoken,
+        },
+        body:JSON.stringify({
+            'request_user_id':request_user_id,
+            'user_id':user_id,
+            'action':action
             })
-        </script>
+        })
+        .then((resp) => {
+            return resp.json()
+        })
+        .then((response)=>{
+            if (response.status == 'success'){
+                if(followBtn.innerText == 'FOLLOW'){
+                    followBtn.innerText = 'Unfollow'
+                    followBtn.classList.add('followed')
+                    
+                }else{
+                    followBtn.innerText = 'Follow'
+                    followBtn.classList.remove('followed')
+                }
+            }
+        })
+    })
+
+    
+</script>
 
 {% endblock js %}

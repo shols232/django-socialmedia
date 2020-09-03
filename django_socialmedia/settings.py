@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     # project apps
     'account',
     'post', 
+    'chatapp',
 
     # third party
     'crispy_forms',
     'social_django',
     'django_extensions',
+    'channels'
     # 'allauth',  
     # 'allauth.account',   
     # 'allauth.socialaccount',   
@@ -81,6 +83,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'django_socialmedia.wsgi.application'
+ASGI_APPLICATION = 'django_socialmedia.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database
@@ -131,6 +142,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_URL = '/media/'
