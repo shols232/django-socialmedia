@@ -111,6 +111,8 @@ def edit_profile(request):
         "profile": profile,
     }
     return render(request, "edit_profile.html", context)
+
+@login_required
 def home(request):
     return render(request, "account/home.html")
 
