@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'social_django',
     'django_extensions',
     'emoji',
-    'emoji_picker'
-    'channels'
+    'emoji_picker',
+    'channels',
     # 'allauth',  
     # 'allauth.account',   
     # 'allauth.socialaccount',   

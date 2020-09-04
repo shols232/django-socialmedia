@@ -4,8 +4,7 @@
 
 {% block header %}
 <link rel="stylesheet" href= "{% static 'css/content.css' %}">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock header %}
 
 {% block content %}
@@ -25,21 +24,17 @@
              <textarea name="{{form.content.name}}" id="id_{{form.content.name}}" class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea>
            
             </fieldset>
-            <div>
+            <div id="content-preview">
+           
             <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image" accept="image/*">
             <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup">
                 add_photo_alternate
-                </span></label>
+                </span>
+            </label>
+                
+                
              </div>
            
-                    <script>
-                        $(document).ready(function(){
-                            $("#id_{{form.content.name}}").emojioneArea({
-                                pickerPosition: "bottom"
-                            });
-                        }) 
-                        
-                </script>
 
         {% for error in field.errors %}
         <p style="color: red">{{ error }}</p>
@@ -50,34 +45,11 @@
         <div class="text-right">
         <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
          </div>
+         <center>
+            <img class="preview-img" src="{{form.image_content.url}}"  width="200" height="300"/>
+        </center>
     </form>  
-    <script>
-$(document).ready(function(){
 
-$('#border').click(function(){
-    var fd = new FormData();
-    var files = $('#id_image_content')[0].files[0];
-    fd.append('file', files);
-
-    $ajax({
-        url: '/post',
-        type:'post',
-        data: fd,
-        contentType: false,
-        processData:false,
-        success: function(response){
-            if(response !=0){
-                $('#img').attr("src", response);
-                $('.preview img').show()
-            }else{
-                alert('file not uploaded');
-            }
-        }
-    })
-})
-
-})
-    </script>
 </div>
 
 
@@ -99,13 +71,16 @@ $('#border').click(function(){
            <small>{{ content.posted  | timesince }}
             <i class="fas fa-clock "></i></small>
                 <hr>
-          <h4> <span class="emoji">{{ content.content }} 
+          <h4> <span class="emoji">{{ content.content }} </span></h4>
           {% if content.image_content %}
-          <img src="  {{content.image_content.url}}"  
-    alt="avatar image" height="100" width="100">
+    
+            <img src="  {{content.image_content.url}}"  
+            alt="avatar image" height="500" width="400">
+
+          
         
           {% endif %}
-               </span></h4> <br>
+                <br>
             <hr>
           
          
@@ -136,6 +111,39 @@ $('#border').click(function(){
 
 {% block js %}
 <script src="{% static 'js/emojionearea.min.js' %}"></script>  
+<script>
+$(document).ready(function(){
+    $("#id_{{form.content.name}}").emojioneArea({
+        pickerPosition: "bottom"
+    });
+}) 
+
+function readURL(input) {
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+        console.log(e.target.result)
+        $('.preview-img').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+        }
+
+        $(function () {
+        $('.preview-img').css('display', 'none');
+        $(".image").change(function() {
+        readURL(this);
+
+        $('.preview-img').on('load', function () {
+        $(this).css('display', 'block');
+        });
+        });
+
+});
+
+</script>
 {% endblock js %}
 
     
