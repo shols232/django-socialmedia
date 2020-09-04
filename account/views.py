@@ -15,8 +15,10 @@ from django.utils.http import urlsafe_base64_encode,  urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .email_tokens import account_activation_token
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-# Create your views here.
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import datetime
+
 
 def register(request):
     if request.method == 'POST':
@@ -125,6 +127,25 @@ def follow_action(request):
     if action == 'Follow':
         if not follows:
             UserFollowing.objects.create(following_user_id=following_user,user_id=user)
+            # notify_user = user # Getting current user
+            channel_layer = get_channel_layer()
+            data = {
+                "by":user.username,
+                "pic":user.profile.image.url,
+                "type":"user_follow",
+                "message":f"{user.username} started following you",
+                "time":str(datetime.datetime.now())
+            }
+            print(user.pk, channel_layer)
+            # Trigger message sent to group
+            async_to_sync(channel_layer.group_send)(
+                str('chat-%s'%(user.pk)),  # Group Name, Should always be string
+                {
+                    "type": "notify",   # Custom Function written in the consumers.py
+                    "text": data,
+                },
+            )
+            print("yayyyyawwuuu")
         else:
              pass
 

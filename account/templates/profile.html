@@ -58,13 +58,15 @@
 
 {% block js %}
 
+<script src="{% static 'reconnecting_websockets.js' %}"></script>
 <script type="text/javascript">
     function editProfile(){
         window.location.href = '{% url "edit_profile" %}'
     }
     
     var followBtn = document.getElementById("follow-btn")
-    followBtn.addEventListener('click', function(){
+    if(followBtn != null){
+        followBtn.addEventListener('click', function(){
         var currentState = followBtn.value
         console.log('{{action}}', followBtn.innerText)
         var action = '{{action}}'
@@ -99,6 +101,41 @@
             }
         })
     })
+    }
+    
+    console.log('yipeee')
+    var loc = window.location
+    var wsStart = "ws://"
+    if (loc.protocol == "https:"){
+        wsStart = "wss://"
+    }
+    var webSocketEndpoint =  wsStart + loc.host + '/ws/notifications/'  // ws : wss   // Websocket URL, Same on as mentioned in the routing.py
+
+
+    var socket = new ReconnectingWebSocket(webSocketEndpoint) // Creating a new Web Socket Connection
+
+    // Socket On receive message Functionality
+    socket.onmessage = function(e){
+        console.log('message', e)
+        console.log(e.data, 'yibbreeee') // Access the notification data
+        //$("body").append("<h3>"+e.data+"</h3>")
+        // Can write any functionality based on your requirement
+    }
+
+    // Socket Connet Functionality
+    socket.onopen = function(e){
+        console.log('open', e)
+    }
+
+    // Socket Error Functionality
+    socket.onerror = function(e){
+        console.log('error', e)
+    }
+
+    // Socket close Functionality
+    socket.onclose = function(e){
+        console.log('closed', e)
+    }
 
     
 </script>

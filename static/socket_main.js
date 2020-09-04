@@ -1,7 +1,12 @@
     var updatedRoomName = ''
     if (roomName != ''){} 
+    var loc = window.location
+    var wsStart = "ws://"
+    if (loc.protocol == "https:"){
+        wsStart = "wss://"
+    }
     var chatSocket = new ReconnectingWebSocket(
-        'ws://' + window.location.host +
+        wsStart + window.location.host +
         '/ws/chat/' + roomName + '/');
 
     chatSocket.onopen = function(e) {
