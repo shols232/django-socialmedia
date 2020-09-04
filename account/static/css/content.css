@@ -1,0 +1,57 @@
+.emoji{
+    font-family: "Segoe UI Emoji";
+}
+#border{
+    border-radius: 5px;
+}
+#card{
+    
+}
+.test{
+    background-color: #e9ebee;
+}
+.inline{
+    float: right;
+}
+
+input[type=file]{
+    display: none;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 36px;  /* Preferred icon size */
+    
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }
+
+  .material-icons.md-36.blueup { font-size: 36px;
+    color: #2196F3;}
+    .material-icons.md-36.blueup:hover{
+        cursor: pointer;
+        color: blue;
+    }
+
+.preview img{
+        display: none;
+     }
+
+.preview{
+        width: 100px;
+        height: 100px;
+        border: 1px solid black;
+        margin: 0 auto;
+        background: white;
+     }

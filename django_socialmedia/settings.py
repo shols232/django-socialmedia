@@ -47,7 +47,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'social_django',
     'django_extensions',
-    'channels'
+    'emoji',
+    'emoji_picker',
+    'channels',
     # 'allauth',  
     # 'allauth.account',   
     # 'allauth.socialaccount',   
@@ -190,5 +192,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_USE_SSL = True  
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'list'
 LOGIN_URL = 'login'
