@@ -1,14 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Content
 from account.models import Profile
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
+from .forms import ContentForm
 # Create your views here.
 
 class ContentCreateListView(LoginRequiredMixin,CreateView, ListView):
     model = Content
     context_object_name = 'contents'
-    # paginate_by = 5
+    paginate_by = 5
     fields = ['content','image_content']
     success_url = '/post'
    # ordering = ["-posted"]
@@ -47,3 +50,27 @@ class ContentCreateView(LoginRequiredMixin,CreateView):
         return data
 
 
+def content_list(request):
+    contents = Content.objects.all().order_by('-posted')
+    paginator = Paginator(contents, 5)
+    page = request.GET.get('page')
+    if request.method == 'POST':
+        form = ContentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.author = request.user
+            form.save()
+        return redirect("content")
+    else:
+        form = ContentForm()
+    try:
+        contents = paginator.page(page)
+    except PageNotAnInteger:
+        contents = paginator.page(1)
+    except EmptyPage:
+        if request.is_ajax():
+            return HttpResponse(" ")
+        contents = paginator.page(paginator.num_pages)     
+    if request.is_ajax():
+        return render(request, 'post/list_content.html', {'section':'contents', 'contents':contents})
+
+    return render(request, 'post/true_content.html', {'section':'contents', 'contents':contents, 'form':form})

@@ -15,12 +15,10 @@ daphne==2.5.0
 defusedxml==0.6.0
 Django==3.1
 django-allauth==0.42.0
-django-crispy==1.8.1
 django-crispy-forms==1.9.2
 django-emoji==2.2.2
 django-emoji-picker==0.0.6
-# django-extensions==2.2.5
-django-extensions==3.0.5
+django-extensions==2.2.5
 hiredis==1.1.0
 hyperlink==20.0.1
 idna==2.10
@@ -33,7 +31,7 @@ pyasn1-modules==0.2.8
 pycparser==2.20
 PyHamcrest==2.0.2
 PyJWT==1.7.1
-pyOpenSSL==19.1.0
+pyOpenSSL==19.0.0
 python3-openid==3.2.0
 pytz==2020.1
 requests==2.24.0
@@ -43,7 +41,8 @@ six==1.15.0
 social-auth-app-django==4.0.0
 social-auth-core==3.3.3
 sqlparse==0.3.1
-Twisted==20.3.0
+Twisted @ file:///C:/Users/lenovo/documents/ferrum/coding/projects/django-socialmedia/Twisted-20.3.0-cp38-cp38-win32.whl
 txaio==20.4.1
 urllib3==1.25.10
+Werkzeug==0.16.0
 zope.interface==5.1.0

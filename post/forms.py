@@ -1,10 +1,10 @@
 from .models import Content
 from django import forms
-class ContextForm(forms.ModelForm):
+class ContentForm(forms.ModelForm):
     """Form definition for Contextt."""
 
     class Meta:
         """Meta definition for Contactform."""
 
-        model = Context
-        fields = ('',)
+        model = Content
+        fields = ('content','image_content')
