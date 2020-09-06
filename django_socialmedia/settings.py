@@ -82,7 +82,7 @@ TEMPLATES = [
         },
     },
 ]
-
+DEBUG = config('DEBUG', default=False, cast=bool)
 WSGI_APPLICATION = 'django_socialmedia.wsgi.application'
 ASGI_APPLICATION = 'django_socialmedia.routing.application'
 if DEBUG:
@@ -107,7 +107,7 @@ else:
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-DEBUG = config('DEBUG', default=False, cast=bool)
+
 if DEBUG:
     DATABASES = {
         'default': {
