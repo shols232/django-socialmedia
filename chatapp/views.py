@@ -60,19 +60,6 @@ def get_last_100_messages(chat_id, request=None):
         return {'failed':True, 'message':'Chat Does Not Exist'}
     return {'failed':False, 'messages':chat.messages.order_by('-timestamp')[:100]}
 
-
-# def chat_list_view(request):
-#     username = request.query_params.get('username', None)
-#     if username:
-#         contact = Contact.objects.filter(user__username=username).first()
-#         chats = contact.chats.all()
-#         serailized_chats = []
-#         for chat in chats:
-#             serailized_chats.append({
-#                 user:[{}]
-#             })
-#         return render(chat)
-        
 def list_user(request):
     if request.is_ajax():
         suggestion = request.GET["suggestion"]
@@ -91,7 +78,6 @@ def list_user(request):
 
 def chat_create_view(request):
     if request.is_ajax():
-        print(request, request.GET, 'ylllll')
         chat_id = request.GET["userid"]
         user = User.objects.get(id=chat_id)
         contact, created = Contact.objects.get_or_create(user=user)

@@ -15,7 +15,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 <!-- Material Design Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/css/mdb.min.css" rel="stylesheet">
-    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<link rel="stylesheet" href="{% static 'tribute.css' %}">
 <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
 
@@ -55,7 +55,7 @@
               <div class="meta">
                 <p class="name">{{chat.user_one.user.username}}</p>
               {% endifequal %}
-              <p class="preview">{{chat.last_message}}</p>
+              <p class="preview" style="word-wrap: break-word;">{{chat.last_message|truncatechars:50|safe }}{% if chat.last_message|length > 25 %}...{% endif %}</p>
               </div>
             </div>
           </li>
@@ -81,7 +81,7 @@
       </div>
       <div class="message-input">
         <div class="wrap">
-        <input id="chat-message-input" type="text" placeholder="Write your message..." />
+        <div id="chat-message-input" dir="auto" contenteditable="true" placeholder="Write your message..." ></div>
         <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
         <button id="chat-message-submit" class="submit">
           <i class="fa fa-paper-plane" aria-hidden="true"></i>
@@ -132,6 +132,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+<script src="{% static 'tribute.js' %}"></script>
 <script src="{% static 'main.js' %}"></script>
 <script src="{% static 'reconnecting_websockets.js' %}"></script>
 
@@ -157,13 +158,11 @@ $(document).ready( function(){
               </li>`
             )
           }
-          // $('#user').html(data);
       });
   });
 });
 
 function userAddChat(e){
-  console.log(e.dataset, e.data)
   var id = e.dataset.chatid
   console.log(id)
 
@@ -179,21 +178,56 @@ function userAddChat(e){
 <script>
   var roomName = {{ room_name_json }};
   var username = {{ username }};
+  
+  var tribute = new Tribute({
+    // menuContainer: document.getElementById('content'),
+    values: function(text, cb) {
+      $.get(`/chat/users/listall/`, {"suggestion":text}, function(data, status){
+        if (status == "success"){
+            // var parsedData = JSON.parse(data)
+            cb(data)
+            console.log('cb', data)
+        }else{
+          cb([])
+        }
+        });
+      },
+    lookup: "username",
+    fillAttr: "username",
+    selectTemplate: function(item) {
+      if (typeof item === "undefined") return null;
+      if (this.range.isContentEditable(this.current.element)) {
+        return (
+          `<span style="font-weight:bold" contenteditable="false"><a
+             href="/account/profile/${item.original.id}" title="${item.original.username}" 
+             >@${item.original.username}</a></span>`
+        );
+      }
+
+      return (
+          `<span style="font-weight:bold" contenteditable="false"><a
+             href="/account/profile/${item.original.id}" title="${item.original.username}" 
+             >@${item.original.username}</a></span>`
+        );
+    },
+    requireLeadingSpace: true,
+    noMatchTemplate: function () {
+      return '<span style:"visibility: hidden;"></span>';
+    }
+  });
+
+  tribute.attach(document.getElementById("chat-message-input"));
+  console.log('Ayeeewww')
 </script>
-<script src="{% static 'socket_main.js' %}">
-</script>
+<script src="{% static 'socket_main.js' %}"></script>
 {% else %}
 <script>
-
-
-
 var contact = document.querySelectorAll('.contact')
   contact.forEach(item => {
     item.addEventListener('click', function(e){
       window.location.replace(window.location.origin + `/chat/${item.dataset.chatid}`)
     });
   })
-
 
 </script>
 {% endif %}

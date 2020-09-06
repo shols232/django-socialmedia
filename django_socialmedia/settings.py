@@ -85,14 +85,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_socialmedia.wsgi.application'
 ASGI_APPLICATION = 'django_socialmedia.routing.application'
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [config('REDIS_URL')],
+if DEBUG:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [('127.0.0.1', '6379')],
+            },
         },
-    },
-}
+    }
+else:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [config('REDIS_URL')],
+            },
+        },
+    }
 
 
 # Database
