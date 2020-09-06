@@ -20,6 +20,9 @@ from asgiref.sync import async_to_sync
 import datetime
 
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+# Create your views here.
 
 def register(request):
     if request.method == 'POST':
@@ -68,6 +71,11 @@ def activate(request, uidb64, token):
 def send_mail_activation(request):
     return render(request, 'account/sent.html')
 
+def logout_view(request):
+    logout(request)
+    messages.info(request,"You have been logged out successfully, please come back next time 🙂")
+    return redirect('login')
+
 @login_required
 def profile(request, id):
     request_user = request.user
@@ -98,7 +106,7 @@ def edit_profile(request):
         if u_form.is_valid():
             p_form.save()
             u_form.save()
-            messages.success(request, f'Your Profile Has Successfully Been Updated' )
+            messages.success(request, f'Your Profile Has been Successfully Been Updated' )
             return redirect(reverse('profile', kwargs={'id':user.id}))
     # else:
     #     user = request.user

@@ -25,8 +25,10 @@ urlpatterns = [
     path('', user_view.home, name = 'home'),
     path('chat/', include('chatapp.urls', namespace='chatapp')),
     path('account/', include('account.urls')),
+    path('post/', include('post.urls')),
+    path('emoji/', include('emoji.urls')),
    # path('google/', include('allauth.urls'))
-   path('social-auth/',include('social_django.urls', namespace='social')),
+    path('social-auth/',include('social_django.urls', namespace='social')),
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

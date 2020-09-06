@@ -3,7 +3,11 @@
 }
 
 .card{
+<<<<<<< HEAD
+    background-color:rgba(105, 140, 143, 0.959);
+=======
     background-color:#dbf1e5;
+>>>>>>> 3f83bbcfbdf1f99fe17a5a5ad393ea45d381a4f2
 }
 .outer-image{
     display:grid;

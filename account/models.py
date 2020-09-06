@@ -12,6 +12,9 @@ class Profile(models.Model):
     # def get_absolute_url(self):
     #     return reverse('profile', args=[self.user.id])
 
+    def __str__(self):
+        return self.user.username
+
 
 
 class UserFollowing(models.Model):
