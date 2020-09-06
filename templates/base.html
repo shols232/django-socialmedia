@@ -11,7 +11,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design for Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="{% static 'base.css' %}">
   {% block header %}
   {% endblock header %}
 
@@ -43,8 +43,15 @@
       
     </ul>
     <ul class="navbar-nav nav-flex-icons">
-      <li class="nav-item mr-2">
-        <a class="nav-link" href="#">Notifications</a>
+      <li class="nav-item dropdown">
+        <span id="dropdown-notifications" class="nav-link dropdown-toggle drop-left mr-4" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Notifications<span style="float:right" class="badge ml-1 mt-1 badge-secondary notifications-count badge-pill">{{ count }}</span></span>
+          
+        <div class="dropdown-menu" id="notif-drop-down" style="width:400px;" aria-labelledby="navbarDropdownMenuLink">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       </li>
       <li class="nav-item dropdown avatar">
         <a class="nav-link p-0 nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
@@ -84,6 +91,7 @@
   {% block js %}
   {% endblock js %}
 
+  <script src="{% static 'reconnecting_websockets.js' %}"></script>
   <script>
     function getToken(name) {
             let cookieValue = null;
@@ -102,6 +110,80 @@
         }
         const csrftoken = getToken('csrftoken');
     new WOW().init();
+    var notifSpan = document.getElementsByClassName('notifications-count')[0]
+    var dropdownNotifications = document.getElementById('dropdown-notifications')
+    var notifUserId = '{{ request.user.id }}'
+    dropdownNotifications.addEventListener('click', function(){
+      console.log('hoyyyyy')
+      $.get('/account/user_notifs/', {user_id: notifUserId},   function(data){
+        return
+    }).then((data) => {
+      $('#notif-drop-down').html('')
+        for (var i=0; i<data.length; i++){
+          console.log(data)
+          if (data[i]["message_type"] == "user_follow"){
+            let read;
+            if(data[i]["read"] == false){
+              read = 'message-read'
+              console.log(data[i]["read"])
+            }else{
+              read = ''
+            }
+            $('#notif-drop-down').append(
+            `<a class="dropdown-item user-notif-follow ${read}" href="account/profile/${data[i].user_id}">
+              <div>
+                <span>New follower<span>
+                <div>
+                  <p class="notifMessage">${data[i].message}</p>
+                </div>
+              </div>
+            </a>`
+            )
+          }  
+        }
+      notifSpan.innerText = 0
+    })
+    
+  })
+
+  // websocket for notifications
+
+  var loc = window.location
+    var wsStart = "ws://"
+    if (loc.protocol == "https:"){
+        wsStart = "wss://"
+    }
+    var webSocketEndpoint =  wsStart + loc.host + '/ws/notifications/'  // ws : wss   // Websocket URL, Same on as mentioned in the routing.py
+
+
+    var socket = new ReconnectingWebSocket(webSocketEndpoint) // Creating a new Web Socket Connection
+
+    // Socket On receive message Functionality
+    socket.onmessage = function(e){
+        console.log('message', e)
+        var data = JSON.parse(e.data)
+
+        if(data['status']=="success"){
+            notifSpan.innerText = data["count"]
+        }
+    }
+
+    // Socket Connet Functionality
+    socket.onopen = function(e){
+        console.log('open', e)
+    }
+
+    // Socket Error Functionality
+    socket.onerror = function(e){
+        console.log('error', e)
+    }
+
+    // Socket close Functionality
+    socket.onclose = function(e){
+        console.log('closed', e)
+    }
+
+
   </script>
 </body>
 </html>

@@ -31,3 +31,19 @@ class UserFollowing(models.Model):
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+
+class Notifications(models.Model):
+    to_user = models.ForeignKey(User, related_name="my_notifications", on_delete=models.CASCADE)
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message_type = models.CharField(max_length=100)
+    message = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.to_user.username
+
+    @property
+    def active_count(self):
+        return self.objects.filter(read=False).count()

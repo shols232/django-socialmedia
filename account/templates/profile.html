@@ -18,7 +18,7 @@
                 </div>
                     <div class="follow-box">
                         <div class="follow-text">
-                            <div class="rounded"><span>{{ followers_count }}</span> Followers</div>
+                            <div class="rounded "><span class="follow-count-span">{{ followers_count }}</span> Followers</div>
                             <div class="rounded"><span>{{ following_count }}</span> Following</div>
                         </div>
                     </div>
@@ -58,7 +58,6 @@
 
 {% block js %}
 
-<script src="{% static 'reconnecting_websockets.js' %}"></script>
 <script type="text/javascript">
     function editProfile(){
         window.location.href = '{% url "edit_profile" %}'
@@ -67,9 +66,14 @@
     var followBtn = document.getElementById("follow-btn")
     if(followBtn != null){
         followBtn.addEventListener('click', function(){
-        var currentState = followBtn.value
-        console.log('{{action}}', followBtn.innerText)
-        var action = '{{action}}'
+        var currentState = followBtn.innerText
+        console.log('{{action}}', currentState)
+        if (currentState == 'FOLLOW'){
+            var action = 'Follow'
+        }else{
+            var action = 'Unfollow'
+        }
+        
         var user_id = '{{user.id}}'
         var request_user_id = '{{request_user_id}}'
         var url = 'follow_unfollow/'
@@ -90,53 +94,24 @@
         })
         .then((response)=>{
             if (response.status == 'success'){
+                
+                var followSpan = document.getElementsByClassName('follow-count-span')[0]
+                var prevState = parseInt(followSpan.innerText)
+                console.log(prevState)
                 if(followBtn.innerText == 'FOLLOW'){
                     followBtn.innerText = 'Unfollow'
                     followBtn.classList.add('followed')
-                    
+                    followSpan.innerText = prevState + 1
                 }else{
                     followBtn.innerText = 'Follow'
                     followBtn.classList.remove('followed')
+                    followSpan.innerText = prevState - 1
                 }
             }
         })
     })
     }
     
-    console.log('yipeee')
-    var loc = window.location
-    var wsStart = "ws://"
-    if (loc.protocol == "https:"){
-        wsStart = "wss://"
-    }
-    var webSocketEndpoint =  wsStart + loc.host + '/ws/notifications/'  // ws : wss   // Websocket URL, Same on as mentioned in the routing.py
-
-
-    var socket = new ReconnectingWebSocket(webSocketEndpoint) // Creating a new Web Socket Connection
-
-    // Socket On receive message Functionality
-    socket.onmessage = function(e){
-        console.log('message', e)
-        console.log(e.data, 'yibbreeee') // Access the notification data
-        //$("body").append("<h3>"+e.data+"</h3>")
-        // Can write any functionality based on your requirement
-    }
-
-    // Socket Connet Functionality
-    socket.onopen = function(e){
-        console.log('open', e)
-    }
-
-    // Socket Error Functionality
-    socket.onerror = function(e){
-        console.log('error', e)
-    }
-
-    // Socket close Functionality
-    socket.onclose = function(e){
-        console.log('closed', e)
-    }
-
     
 </script>
 
