@@ -6,16 +6,44 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock header %}
 
+{% block navbar %}
+    
+{% endblock navbar %}
+    
 {% block content %}
 <div class="row">
-<aside class="col-2 test">
-    <div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Launch demo modal
-          </button>
-    </div>
+<aside class="col-2 test left " >
+    <div class="text-center">
+
+   
+     <ul class="side-table">
+        <center>   <li> <a class="side-item" href="{% url 'content' %}">
+                    <img src="{% static 'logo/void.png' %}" 
+                      alt="Void" class="Logo"> </a></li></center> 
+                <li>  <a class="side-item" href="{% url 'content' %}"><span class="material-icons">
+                    home
+                    </span></a></li>
+                <li><a class="side-item" href="{% url 'chatapp:room_bare' %}"><span class="material-icons">
+                    message
+                    </span></a></li>
+                <li> <a class="side-item" href="#"><span class="material-icons">
+                    notification_important
+                    </span></a></li>
+                <li> <a class="side-item" href="{% url 'profile' request.user.id %}"><span class="material-icons">
+                    account_circle
+                    </span></a></li>
+                <li><a class="side-item" href="{% url 'logout' %}"><span class="material-icons">
+                    power_settings_new
+                    </span></a></li>
+                <li><a class="side-item" href="" data-toggle = 'modal' data-target='#exampleModal'><span class="material-icons">
+                    add_circle
+                    </span></a></li>
+        
+            </ul>
+        </div>
+
 </aside>
-<aside class="col-6 test">
+<aside class="col-sm-6 col-10 test right " >
     <div class="post">
 
 
@@ -23,14 +51,25 @@
             {% csrf_token %}
     
             <p>
+                <div class="img">
+                    <img class="preview-img prev" src="{{form.image_content.url}}"/>
+                    <hr>
+                    <span class="material-icons xmark" >
+                        close
+                        </span>  
+                </div>
+                
+                    
+            
+                
                 <fieldset class="form-group">
                  <textarea name="{{form.content.name}}" id="id_{{form.content.name}}" class="form-control id_{{form.content.name}}" style="display: none;" placeholder="what's on your mind?"></textarea>
-               
+                 
                 </fieldset>
                 <div id="content-preview">
                
                 <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image" accept="image/*">
-                <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup">
+                <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup label">
                     add_photo_alternate
                     </span>
                 </label>
@@ -49,7 +88,7 @@
             <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
              </div>
              <center>
-                <img class="preview-img" src="{{form.image_content.url}}"  width="300"/>
+               
             </center>
         </form>  
     
@@ -61,51 +100,39 @@
 <div class="infinite-container">
     {% include 'post/list_content.html' %}
 </div>
-</aside>
-
-
-<aside class="col-4 test" >
-</aside>
-</div>
-<!-- Button trigger modal -->
-
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-           
-              
-          </button>
-        </div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-    
+
         <div class="modal-body">
+            
             <fieldset class="form-group">
-            <textarea name="{{form.content.name}}" id="id_{{form.content.name}}" class="form-control id_{{form.content.name}}" style="display: none;" placeholder="what's on your mind?"></textarea> 
-              
+                <div class="img">
+                    <img class="preview-img prev" id="label-img" src="{{form.image_content.url}}"/>
+                    <hr>
+                    <span class="material-icons xmark xmark-label" >
+                        close
+                        </span>  
+                </div>
+            <textarea name="{{form.content.name}}" id="id_label_{{form.content.name}}" class="form-control id_{{form.content.name}}" style="display: none;" placeholder="what's on your mind?"></textarea>
+
+            <input type="file" name="{{form.image_content.name}}" id="label_{{form.image_content.name}}" class="image-label" accept="image/*">
+            <label for="label_{{form.image_content.name}}"><span class="material-icons md-36 label modellabel">
+                add_photo_alternate
+                </span>
+            </label>
                </fieldset>
         </div>
-        
-            <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image" accept="image/*">
-        <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup">
-            add_photo_alternate
-            </span>
-        </label>
+
+            
         
         <div class="modal-footer">
-           
-                
-                        
+             
             <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
-            
-          
+  
         </div>
-        <center>
-            <img class="preview-img" src="{{form.image_content.url}}"  width="300"/>
-        </center>
 
         {% for error in field.errors %}
         <p style="color: red">{{ error }}</p>
@@ -115,6 +142,17 @@
     </form>  
     </div>
   </div>
+</aside>
+
+
+<aside class="col-sm-4 test "  >
+</aside>
+</div>
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  
 {% endblock content %}
 
 
@@ -127,7 +165,40 @@ $(document).ready(function(){
     $(".id_{{form.content.name}}").emojioneArea({
         pickerPosition: "bottom"
     });
+}) ;
+
+$(document).ready(function(){
+    $("#id_label_{{form.content.name}}").emojioneArea({
+        pickerPosition: "bottom"
+    });
 }) 
+
+function readURLModel(input) {
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+        console.log(e.target.result)
+        $('#label-img').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+        }
+
+        $(function () {
+        $('#label-img').css('display', 'none');
+        $('.xmark').css('display', 'none');
+        $(".image-label").change(function() {
+        readURLModel(this);
+
+        $('#label-img').on('load', function () {
+        $(this).css('display', 'block');
+        $('.xmark-label').css('display', 'block');
+        });
+        });
+
+});
 
 function readURL(input) {
         if (input.files && input.files[0]) {
@@ -144,11 +215,13 @@ function readURL(input) {
 
         $(function () {
         $('.preview-img').css('display', 'none');
+        $('.xmark').css('display', 'none');
         $(".image").change(function() {
         readURL(this);
 
         $('.preview-img').on('load', function () {
         $(this).css('display', 'block');
+        $('.xmark').css('display', 'block');
         });
         });
 
@@ -177,5 +250,13 @@ function readURL(input) {
         }
     });
 </script>
+<script>
+    $('.xmark').on('click',function(){
+        $(".image").val('');
+        $('.xmark').css('display', 'none');
+        $('.preview-img').css('display', 'none');
+      
+    }); 
+  </script>
 
 {% endblock js %}
