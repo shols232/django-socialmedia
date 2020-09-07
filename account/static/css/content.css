@@ -63,9 +63,9 @@ input[type=file]{
     list-style-type: none;
     display: table; 
     width: 100%;
-    height: 600px;
+    height: 720px;
     margin: 0;
-    padding-top: 50px;
+   
 }
 
 .side-table li{
