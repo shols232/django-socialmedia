@@ -63,9 +63,9 @@ input[type=file]{
     list-style-type: none;
     display: table; 
     width: 100%;
-    height: 600px;
+    height: 720px;
     margin: 0;
-    padding-top: 50px;
+   
 }
 
 .side-table li{
@@ -104,6 +104,13 @@ input[type=file]{
 
 }
 
+.material-icons.side{
+    font-size: 36px;
+    position: relative;
+    margin-left: 50%;
+
+}
+
 @media screen and (min-width: 992px){
     .Logo{
         height:40%;
@@ -116,6 +123,7 @@ input[type=file]{
         height:40%;
         width:80%; 
     }
+   
 }
 @media screen and (max-width: 720px){
     .Logo{
@@ -124,6 +132,12 @@ input[type=file]{
         margin-left: -100%;
         height: 200%;
         width: 200%;
+    }
+    .material-icons.side{
+        font-size: 24px;
+        position: static;
+        margin-left: 0%;
+    
     }
 }
 
