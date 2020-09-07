@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
+{% load el_pagination_tags %}
 {% block header %}
 <link rel="stylesheet" href= "{% static 'css/content.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -55,7 +55,11 @@
 
 <hr>
 <br>
+
+<div class="infinite-container">
+    {% paginate contents %}
 {% for content in contents %}
+
 <div class="card" id="card">
 <div class="container-fluid">
     <div class="row">
@@ -97,8 +101,13 @@
     </div>
 </div>
 </div>
+
 <br> 
 {% endfor %}
+</div>
+
+<div id="sentinel"></div>
+
 
 
 </aside>
@@ -143,6 +152,19 @@ function readURL(input) {
 
 });
 
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    let sentinel = document.getElementById("sentinel");
+  
+    let observer = new IntersectionObserver((entries) => {
+      entry = entries[0];
+      if (entry.intersectionRatio > 0) {
+          alert("This happened");
+      }
+    })
+    observer.observe(sentinel);
+  })
 </script>
 {% endblock js %}
 

@@ -19,7 +19,7 @@
   {% endblock header %}
 
 </head>
-<body style="padding-top: 50px; background-color: #e9ebee;">
+<body style="">
 <!--Navbar -->
 
 {% block navbar %}
@@ -36,7 +36,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'list' %}">Home
+        <a class="nav-link" href="{% url 'content' %}">Home
           <span class="sr-only">(current)</span>
         </a>
       </li>
@@ -72,13 +72,6 @@
 
 </div>
 {% endblock content %}
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.6/lib/darkmode-js.min.js"></script>
-<script>
-  function addDarkmodeWidget() {
-    new Darkmode().showWidget();
-  }
-  window.addEventListener('load', addDarkmodeWidget);
-</script>
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -116,5 +109,6 @@
         const csrftoken = getToken('csrftoken');
     new WOW().init();
   </script>
+ 
 </body>
 </html>
