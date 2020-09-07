@@ -141,3 +141,7 @@ input[type=file]{
     -ms-overflow-style: none;  
     scrollbar-width: none;  
   } */
+
+  .side{
+      font-size: 36px;
+  }
