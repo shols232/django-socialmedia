@@ -4,6 +4,7 @@
 {% block header %}
 <link rel="stylesheet" href= "{% static 'css/content.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tributejs@3.5.3/dist/tribute.css">
 {% endblock header %}
 
 {% block navbar %}
@@ -12,7 +13,7 @@
     
 {% block content %}
 <div class="row">
-<aside class="col-2 test left " >
+<aside class="col-2 test side-bar " >
     <div class="text-center">
 
    
@@ -116,7 +117,7 @@
                         close
                         </span>  
                 </div>
-            <textarea name="{{form.content.name}}" id="id_label_{{form.content.name}}" class="form-control id_{{form.content.name}}" style="display: none;" placeholder="what's on your mind?"></textarea>
+            <textarea name="{{form.content.name}}" id="id_label_{{form.content.name}}" class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea>
 
             <input type="file" name="{{form.image_content.name}}" id="label_{{form.image_content.name}}" class="image-label" accept="image/*">
             <label for="label_{{form.image_content.name}}"><span class="material-icons md-36 label modellabel">
@@ -163,13 +164,19 @@
 <script>
 $(document).ready(function(){
     $(".id_{{form.content.name}}").emojioneArea({
-        pickerPosition: "bottom"
+        pickerPosition: "bottom",
+        textcomplete: {
+        maxCount  : 10,
+        placement : null
+    }
     });
 }) ;
 
 $(document).ready(function(){
     $("#id_label_{{form.content.name}}").emojioneArea({
-        pickerPosition: "bottom"
+        pickerPosition: "bottom",
+        autocomplete: false
+        
     });
 }) 
 
@@ -258,5 +265,20 @@ function readURL(input) {
       
     }); 
   </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script>
+  <script>
+ var tribute = new Tribute({
+    values: [
+              { key: 'Phil', value: 'pheartman' },
+              { key: 'Gordon', value: 'gramsey' },
+              { key: 'Jacob', value: 'jacob' },
+              { key: 'Ethan', value: 'ethan' },
+              { key: 'Emma', value: 'emma' },
+              { key: 'Isabella', value: 'isabella' }
+            ],
+    
+  });
+  tribute.attach(document.getElementsByClassName("id_content"));
+  </script>
+ 
 {% endblock js %}
