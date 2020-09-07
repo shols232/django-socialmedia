@@ -19,7 +19,6 @@
         if (data['command'] === 'messages') {
           if(data['status'] === 'Chat with that id does not exist'){
             console.log(data["status"])
-            // alert(data["status"])
             window.location.replace(window.location.origin + `/chat/`)
           }else{
             for (let i=0; i<data['messages'].length; i++) {
@@ -58,10 +57,10 @@
     document.querySelector('#chat-message-submit').onclick = function(e) {
       console.log('ohio')
         var messageInputDom = document.getElementById('chat-message-input');
-        var regex = /^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/gi
+        // var regex = /^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/gi
         // var holla = 
         // messageInputDom.innerText = messageInputDom.innerText.trim()
-        var message = messageInputDom.innerHTML.replace(regex, '')
+        var message = messageInputDom.innerHTML.replace(/(<div><br><\/div>)$/m,"");
         chatSocket.send(JSON.stringify({
             'command': 'new_message',
             'message': message,
@@ -102,9 +101,7 @@
       newDiv.className ='msg-div'
       autPtag.textContent = author
 
-      console.log(pTag, author)
       imgTag.src = data.image_url;
-      console.log(imgTag.src, data.image_url)
       
       if (author === username) {
         console.log(author, username)

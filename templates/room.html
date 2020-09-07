@@ -55,7 +55,7 @@
               <div class="meta">
                 <p class="name">{{chat.user_one.user.username}}</p>
               {% endifequal %}
-              <p class="preview" style="word-wrap: break-word;">{{chat.last_message|truncatechars:50|safe }}{% if chat.last_message|length > 25 %}...{% endif %}</p>
+              <div class="preview" >{{chat.last_message|truncatechars:30|safe }}{% if chat.last_message|length > 20 %}...{% endif %}</div>
               </div>
             </div>
           </li>
