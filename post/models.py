@@ -27,3 +27,18 @@ class Content(models.Model):
         return self.content[:10]
 
     
+# Comment threading model
+
+class Comment(models.Model):
+    post = models.ForeignKey(Content,on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
+    reply = models.ForeignKey('self', null=True,related_name='replies',on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(blank=True,null=True)
+    image_content = models.ImageField(upload_to='comment/', blank=True, null=True, default = None)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return self.content[:6]

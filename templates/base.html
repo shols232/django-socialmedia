@@ -13,67 +13,86 @@
   <!-- Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design for Bootstrap -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">  
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <link rel="stylesheet" href= "{% static 'css/content.css' %}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'tribute.css' %}">
   <link rel="stylesheet" href="{% static 'base.css' %}">
-  
   {% block header %}
   {% endblock header %}
 
 </head>
 <body style="">
 <!--Navbar -->
-
-{% block navbar %}
-  
-<nav style='background-color:#2196F3;'class="mb-1 py-0 navbar fixed-top  navbar-expand-lg navbar-dark lighten-1">
-  <a class="navbar-brand" href="#">
-    <img src="{% static 'logo/void.png' %}" height="50" width="80px" class="p-0 d-inline-block align-top"
-      alt="Void">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
-    aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'content' %}">Home
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      
-    </ul>
-    <ul class="navbar-nav nav-flex-icons">
-      <li class="nav-item dropdown">
-        <span id="dropdown-notifications" class="nav-link dropdown-toggle drop-left mr-4" id="navbarDropdownMenuLink" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">Notifications<span style="float:right" class="badge ml-1 mt-1 badge-secondary notifications-count badge-pill">{{ count }}</span></span>
-          
-        <div class="dropdown-menu" id="notif-drop-down" style="width:400px;height:200px;" aria-labelledby="navbarDropdownMenuLink">
-          <div class="spinner-border text-secondary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item dropdown avatar">
-        <a class="nav-link p-0 nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-          <img src="{{ request.user.profile.image.url }}" style="margin-top:10px;" class="rounded-circle z-depth-0"
-            alt="avatar image" height="25" width="25">
-              <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-4">
-                <a class="dropdown-item" href="{% url 'profile' request.user.id %}">My account</a>
-                
-                <a class="dropdown-item" href="{% url 'chatapp:room_bare' %}">Messages</a>
-                <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
-              </div>
-        </a>
-      </li>
-    </ul>
+<!-- Central Modal Small -->
+<div class="modal fade" id="notifModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+  <!-- Change class .modal-sm to change the size of the modal -->
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">Notifications</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul id='notifUl'>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-sm">Clear Notifications</button>
+      </div>
+    </div>
   </div>
-</nav>
+</div>
+{% block navbar %}
+<div class="row">
+
+<aside class="col-2 test side-bar " >
+<div class="text-center">
+
+   
+  <ul class="side-table">
+     <center>   <li> <a class="side-item" href="{% url 'content' %}">
+                 <img src="{% static 'logo/void.png' %}" 
+                   alt="Void" class="Logo"> </a></li></center> 
+             <li>  <a class="side-item" href="{% url 'content' %}"><span class="material-icons side">
+                 home
+                 </span></a></li>
+             <li><a class="side-item" href="{% url 'chatapp:room_bare' %}"><span class="material-icons side">
+                 message
+                 </span></a></li>
+             <li>
+               <a id="dropdown-notifications" data-toggle="modal" data-target="#notifModal" class="side-item" href=""><span class="material-icons side">
+                 notification_important
+                </span>
+              </a>
+             </li>
+             <li>
+               <a class="side-item" href="{% url 'profile' request.user.id %}"><span class="material-icons side">
+                 account_circle
+                 </span>
+                </a>
+              </li>
+             <li>
+               <a class="side-item" href="{% url 'logout' %}"><span class="material-icons side">
+                 power_settings_new
+                 </span>
+                </a>
+              </li>
+             <li>
+               <a class="side-item" href="" data-toggle = 'modal' data-target='#exampleModal'><span class="material-icons side">
+                 add_circle
+                 </span>
+              </a>
+              </li>
+         </ul>
+     </div>
+</aside>
+
 {% endblock navbar %}
 <!--/.Navbar -->
 {% block content %}
@@ -121,7 +140,7 @@
       $.get('/account/user_notifs/', {user_id: notifUserId},   function(data){
         return
     }).then((data) => {
-      $('#notif-drop-down').html('')
+      $('#notifUl').html('')
         for (var i=0; i<data.length; i++){
           console.log(data)
           if (data[i]["message_type"] == "user_follow"){
@@ -132,10 +151,10 @@
             }else{
               read = ''
             }
-            $('#notif-drop-down').append(
-            `<a class="dropdown-item user-notif-follow ${read}" href="account/profile/${data[i].user_id}">
+            $('#notifUl').append(
+            `<li><a class="dropdown-item user-notif-follow ${read}" href="account/profile/${data[i].user_id}">
               <div>
-                <span>New follower<span>
+                <span>You have a new follower<span>
                 <div>
                   <p class="notifMessage">${data[i].message}</p>
                 </div>

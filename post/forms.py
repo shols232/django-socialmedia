@@ -1,4 +1,4 @@
-from .models import Content
+from .models import Content, Comment
 from django import forms
 from django.core.exceptions import ValidationError
 class ContentForm(forms.ModelForm):
@@ -17,3 +17,8 @@ class ContentForm(forms.ModelForm):
             self._errors['content'] = self.error_class([ 
                 "Please post a content or an image or both"])
         return self.cleaned_data
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields =('content','image_content')
