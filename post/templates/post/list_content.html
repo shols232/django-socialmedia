@@ -1,0 +1,45 @@
+
+{% for content in contents %}
+
+<div class="card" id="card">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+       <center>     <img src="{{ content.author.profile.image.url }}" style="margin-top:10px;" class="rounded-circle z-depth-0"
+    alt="avatar image" height="50" width="50"> </center>
+        </div>
+        <div class="col-md-10">
+            <br>
+            <a class="bg-blue" href="{% url 'profile' content.author.id %}">
+            @{{ content.author.username }}</a>
+            <br>
+           <small>{{ content.posted  | timesince }}
+            <i class="fas fa-clock "></i></small>
+                <hr>
+          <h4> <span class="emoji">{{ content.content }} </span></h4>
+          {% if content.image_content %}
+    
+          <center><img src="  {{content.image_content.url}}"  
+            alt="avatar image"  width="80%" class="imag"></center>  
+
+          {% endif %}
+                <br>
+            <hr>
+          
+         
+          
+            <div class="inline text-right">
+                <i class="fas fa-thumbs-up fa-2x" style="color:#2196F3"></i>
+            </div>
+            <div class="">
+                <i class="far fa-comment fa-2x " style="color:#2196F3"></i>	
+            </div>
+           
+            <br>
+        </div>
+    </div>
+</div>
+</div>
+
+<br> 
+{% endfor %}

@@ -398,7 +398,7 @@ body {
 #frame #sidepanel #contacts ul li.contact .wrap span:first-of-type.busy {
   background: #e74c3c;
 }
-#frame #sidepanel #contacts ul li.contact .wrap img {
+#frame #sidepanel #contacts ul li.contact .wrap .chatImg {
   width: 50px;
   border-radius: 50%;
   float: left;
@@ -406,7 +406,7 @@ body {
   height:48px;
 }
 @media screen and (max-width: 735px) {
-  #frame #sidepanel #contacts ul li.contact .wrap img {
+  #frame #sidepanel #contacts ul li.contact .wrap .chatImg {
     margin-right: 0px;
   }
 }
@@ -627,7 +627,8 @@ body {
   font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
   float: left;
   border: none;
-  width: calc(100% - 90px);
+  height:43px;
+  width: calc(100% - 110px);
   padding: 11px 32px 10px 8px;
   background-color: aliceblue;
   font-weight: bold;
@@ -759,4 +760,15 @@ margin-top: 10px;
 .sent > span{
   margin-left:10px;
   font-weight:bold;
+}
+
+.emojiInputted{
+  width:22px !important;
+  height: 22px !important;
+}
+
+.trigger{
+    cursor: pointer;
+    background-color: #f0f8ff;
+    padding: 9.7px 4px;
 }

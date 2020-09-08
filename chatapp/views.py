@@ -82,7 +82,14 @@ def chat_create_view(request):
         user = User.objects.get(id=chat_id)
         contact, created = Contact.objects.get_or_create(user=user)
         req_contact, created = Contact.objects.get_or_create(user=request.user)
-        chat, created = Chat.objects.get_or_create(user_one=req_contact, user_two=contact)
+        # chat, created = Chat.objects.get_or_create(user_one=req_contact, user_two=contact)
+        try:
+            Chat.objects.get(user_one=req_contact, user_two=contact)
+        except:
+            try:
+                Chat.objects.get(user_one=contact, user_two=req_contact)
+            except:
+                Chat.objects.create(user_one=req_contact, user_two=contact)
         return JsonResponse({'success':True})
 
 def chat_delete_view(request):

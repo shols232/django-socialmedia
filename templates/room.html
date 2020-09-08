@@ -47,15 +47,15 @@
             <div class="wrap">
               <span class="contact-status busy"></span>
               {% ifequal request.user.username chat.user_one.user.username %}
-              <img src="{{ chat.user_two.user.profile.image.url }}" alt="" />
+              <img class="chatImg" src="{{ chat.user_two.user.profile.image.url }}" alt="" />
               <div class="meta">
                 <p class="name">{{chat.user_two.user.username}}</p>
               {% else %}
-              <img src="{{ chat.user_one.user.profile.image.url }}" alt="" />
+              <img class="chatImg" src="{{ chat.user_one.user.profile.image.url }}" alt="" />
               <div class="meta">
                 <p class="name">{{chat.user_one.user.username}}</p>
               {% endifequal %}
-              <div class="preview" >{{chat.last_message|truncatechars:30|safe }}{% if chat.last_message|length > 20 %}...{% endif %}</div>
+              <div class="preview" >{{chat.last_message|safe|truncatewords:30 }}{% if chat.last_message|length > 20 %}...{% endif %}</div>
               </div>
             </div>
           </li>
@@ -81,7 +81,8 @@
       </div>
       <div class="message-input">
         <div class="wrap">
-        <div id="chat-message-input" dir="auto" contenteditable="true" placeholder="Write your message..." ></div>
+        <div id="chat-message-input" dir="auto" contenteditable="true" placeholder="Write your message..." >
+        </div><i style="cursor:pointer" contenteditable="false" class="trigger fa fa-smile-o" aria-hidden="true"></i>
         <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
         <button id="chat-message-submit" class="submit">
           <i class="fa fa-paper-plane" aria-hidden="true"></i>
@@ -135,6 +136,37 @@
 <script src="{% static 'tribute.js' %}"></script>
 <script src="{% static 'main.js' %}"></script>
 <script src="{% static 'reconnecting_websockets.js' %}"></script>
+
+<script type="module">
+  import { EmojiButton } from "https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.1.0/dist/index.min.js";
+  var picker = new EmojiButton({
+    style: 'twemoji',
+    position: {
+      'top':"30%",
+      "right":"2.5%",
+    }
+  });
+  const trigger = document.querySelector('.trigger');
+
+  picker.on('emoji', selection => {
+    // console.log(trigger)
+    // trigger.removeChild(trigger.firstElementChild);
+
+  // Add the new image for the new Twemoji
+  const img = document.createElement('img');
+  img.src = selection.url;
+  img.alt = selection.emoji;
+  img.className = 'emojiInputted'
+  // trigger.appendChild(img);
+  document.getElementById("chat-message-input").appendChild(img);
+});
+  console.log(picker)
+trigger.addEventListener('click', function(){
+  picker.togglePicker(trigger)
+  picker
+});
+
+</script>
 
 <script>
 
@@ -217,6 +249,7 @@ function userAddChat(e){
   });
 
   tribute.attach(document.getElementById("chat-message-input"));
+
   console.log('Ayeeewww')
 </script>
 <script src="{% static 'socket_main.js' %}"></script>
