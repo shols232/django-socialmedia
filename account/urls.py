@@ -27,5 +27,6 @@ urlpatterns = [
     # Profile
     path('profile/<int:id>', user_views.profile, name='profile'),
     path('profile/edit/', user_views.edit_profile, name='edit_profile'),
-    path('profile/follow_unfollow/', user_views.follow_action)
+    path('profile/follow_unfollow/', user_views.follow_action),
+    path('user_notifs/', user_views.notifications)
 ]

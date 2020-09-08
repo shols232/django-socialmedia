@@ -5,6 +5,7 @@ from channels.generic.websocket import WebsocketConsumer
 from .models import Messages, Contact, Chat
 from .views import get_last_100_messages
 import datetime
+from django.utils.html import format_html
 
 class ChatConsumer(WebsocketConsumer):
 

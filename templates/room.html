@@ -1,25 +1,22 @@
+{% extends 'base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html>
   <head>
+    {% block header %}
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
     <script src="https://use.typekit.net/hoy3lrg.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-<!-- Google Fonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-<!-- Bootstrap core CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-<!-- Material Design Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/css/mdb.min.css" rel="stylesheet">
-    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<link rel="stylesheet" href="{% static 'style.css' %}" />
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+{% endblock header %}
   </head>
 
-<body>
+  {% block content %}
+  <div class="col-10" id="chatBodyDiv">
   <div id="frame">
     <div id="sidepanel">
       <div id="profile">
@@ -47,15 +44,15 @@
             <div class="wrap">
               <span class="contact-status busy"></span>
               {% ifequal request.user.username chat.user_one.user.username %}
-              <img src="{{ chat.user_two.user.profile.image.url }}" alt="" />
+              <img class="chatImg" src="{{ chat.user_two.user.profile.image.url }}" alt="" />
               <div class="meta">
                 <p class="name">{{chat.user_two.user.username}}</p>
               {% else %}
-              <img src="{{ chat.user_one.user.profile.image.url }}" alt="" />
+              <img class="chatImg" src="{{ chat.user_one.user.profile.image.url }}" alt="" />
               <div class="meta">
                 <p class="name">{{chat.user_one.user.username}}</p>
               {% endifequal %}
-              <p class="preview">{{chat.last_message}}</p>
+              <div class="preview" >{{chat.last_message|safe|truncatewords:30 }}{% if chat.last_message|length > 20 %}...{% endif %}</div>
               </div>
             </div>
           </li>
@@ -81,7 +78,8 @@
       </div>
       <div class="message-input">
         <div class="wrap">
-        <input id="chat-message-input" type="text" placeholder="Write your message..." />
+        <div id="chat-message-input" dir="auto" contenteditable="true" placeholder="Write your message..." >
+        </div><i style="cursor:pointer" contenteditable="false" class="trigger fa fa-smile-o" aria-hidden="true"></i>
         <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
         <button id="chat-message-submit" class="submit">
           <i class="fa fa-paper-plane" aria-hidden="true"></i>
@@ -123,17 +121,47 @@
     </div>
   </div>
 </div>
-        
+  </div>
+{% endblock content %}
+
+{% block js %}
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+<script src="{% static 'tribute.js' %}"></script>
 <script src="{% static 'main.js' %}"></script>
 <script src="{% static 'reconnecting_websockets.js' %}"></script>
+
+<script type="module">
+  import { EmojiButton } from "https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.1.0/dist/index.min.js";
+  var picker = new EmojiButton({
+    style: 'twemoji',
+    position: {
+      'top':"30%",
+      "right":"2.5%",
+    }
+  });
+  const trigger = document.querySelector('.trigger');
+
+  picker.on('emoji', selection => {
+    // console.log(trigger)
+    // trigger.removeChild(trigger.firstElementChild);
+
+  // Add the new image for the new Twemoji
+  const img = document.createElement('img');
+  img.src = selection.url;
+  img.alt = selection.emoji;
+  img.className = 'emojiInputted'
+  // trigger.appendChild(img);
+  document.getElementById("chat-message-input").appendChild(img);
+});
+  console.log(picker)
+trigger.addEventListener('click', function(){
+  picker.togglePicker(trigger)
+  picker
+});
+
+</script>
 
 <script>
 
@@ -157,13 +185,11 @@ $(document).ready( function(){
               </li>`
             )
           }
-          // $('#user').html(data);
       });
   });
 });
 
 function userAddChat(e){
-  console.log(e.dataset, e.data)
   var id = e.dataset.chatid
   console.log(id)
 
@@ -179,14 +205,51 @@ function userAddChat(e){
 <script>
   var roomName = {{ room_name_json }};
   var username = {{ username }};
+  
+  var tribute = new Tribute({
+    // menuContainer: document.getElementById('content'),
+    values: function(text, cb) {
+      $.get(`/chat/users/listall/`, {"suggestion":text}, function(data, status){
+        if (status == "success"){
+            // var parsedData = JSON.parse(data)
+            cb(data)
+            console.log('cb', data)
+        }else{
+          cb([])
+        }
+        });
+      },
+    lookup: "username",
+    fillAttr: "username",
+    selectTemplate: function(item) {
+      if (typeof item === "undefined") return null;
+      if (this.range.isContentEditable(this.current.element)) {
+        return (
+          `<span style="font-weight:bold" contenteditable="false"><a
+             href="/account/profile/${item.original.id}" title="${item.original.username}" 
+             >@${item.original.username}</a></span>`
+        );
+      }
+
+      return (
+          `<span style="font-weight:bold" contenteditable="false"><a
+             href="/account/profile/${item.original.id}" title="${item.original.username}" 
+             >@${item.original.username}</a></span>`
+        );
+    },
+    requireLeadingSpace: true,
+    noMatchTemplate: function () {
+      return '<span style:"visibility: hidden;"></span>';
+    }
+  });
+
+  tribute.attach(document.getElementById("chat-message-input"));
+
+  console.log('Ayeeewww')
 </script>
-<script src="{% static 'socket_main.js' %}">
-</script>
+<script src="{% static 'socket_main.js' %}"></script>
 {% else %}
 <script>
-
-
-
 var contact = document.querySelectorAll('.contact')
   contact.forEach(item => {
     item.addEventListener('click', function(e){
@@ -194,9 +257,7 @@ var contact = document.querySelectorAll('.contact')
     });
   })
 
-
 </script>
 {% endif %}
-</body>
+{% endblock js%}
 
-</html>

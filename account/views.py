@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, UpdateUserForm, ProfileUpdateForm
 from django.contrib.auth.models import User
-from .models import UserFollowing
+from .models import UserFollowing, Notifications
 from django.urls import reverse
 from django.http import JsonResponse
 import json
@@ -15,6 +15,11 @@ from django.utils.http import urlsafe_base64_encode,  urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .email_tokens import account_activation_token
 from django.contrib.auth import login
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import datetime
+
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 # Create your views here.
@@ -81,9 +86,7 @@ def profile(request, id):
     owner = False
     if request_user == user:
         owner = True
-    print(request_user)
-    print(user.followers.all())
-    print(follows)
+
     if follows:
         action = 'Unfollow'
     else:
@@ -115,8 +118,11 @@ def edit_profile(request):
         "profile": profile,
     }
     return render(request, "edit_profile.html", context)
+
+@login_required
 def home(request):
-    return render(request, "account/home.html")
+    count = request.user.my_notifications.filter(read=False).count()
+    return render(request, "account/home.html", {'count':count})
 
 
 def follow_action(request):
@@ -127,10 +133,36 @@ def follow_action(request):
     following_user = User.objects.get(id=following_user_id)
     user = User.objects.get(id=user_id)
     follows = user.followers.filter(following_user_id=following_user).exists()
-    print(follows)
+
     if action == 'Follow':
         if not follows:
             UserFollowing.objects.create(following_user_id=following_user,user_id=user)
+            notify_user = user # Getting current user
+            channel_layer = get_channel_layer()
+            try:
+                count = Notifications.objects.filter(to_user=user).count() + 1
+            except Notifications.DoesNotExist:
+                count = 1
+
+            data = {
+                "status":"success",
+                "count":count,
+            }
+
+            async_to_sync(channel_layer.group_send)(
+                str('chat-%s'%(user.pk)),  # Group Name, Should always be string
+                {
+                    "type": "notify",   # Custom Function written in the consumers.py
+                    "text": data,
+                },
+            )
+
+            Notifications.objects.create(to_user=user,
+             from_user=following_user,
+             message_type="user_follow",
+             message=f"{user.username} started following you"
+            )
+            return JsonResponse({'status':'success'}, safe=False)
         else:
              pass
 
@@ -139,9 +171,27 @@ def follow_action(request):
             rel = UserFollowing.objects.get(following_user_id=following_user,user_id=user)
             print('yoooo')
             rel.delete()
+            return JsonResponse({'status':'success'}, safe=False)
         else:
              pass
 
-    return JsonResponse({'status':'success'}, safe=False)
+    return JsonResponse({'status':'failed'}, safe=False)
 
+def notifications(request):
+    if request.is_ajax():
+        user_id = request.GET["user_id"]
+        notifs_qs = Notifications.objects.filter(to_user__id=user_id).order_by('-timestamp')
+        notifs = []
 
+        for notif in notifs_qs:
+            notifs.append({
+                'user_id':notif.from_user.id,
+                'from_user':notif.from_user.username,
+                'message_type':notif.message_type,
+                'message':notif.message,
+                'read':notif.read
+            })
+            notif.read = True
+            notif.save()
+        print(notifs)
+        return JsonResponse(notifs, safe=False)

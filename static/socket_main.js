@@ -1,7 +1,12 @@
     var updatedRoomName = ''
     if (roomName != ''){} 
+    var loc = window.location
+    var wsStart = "ws://"
+    if (loc.protocol == "https:"){
+        wsStart = "wss://"
+    }
     var chatSocket = new ReconnectingWebSocket(
-        'ws://' + window.location.host +
+        wsStart + window.location.host +
         '/ws/chat/' + roomName + '/');
 
     chatSocket.onopen = function(e) {
@@ -14,7 +19,6 @@
         if (data['command'] === 'messages') {
           if(data['status'] === 'Chat with that id does not exist'){
             console.log(data["status"])
-            // alert(data["status"])
             window.location.replace(window.location.origin + `/chat/`)
           }else{
             for (let i=0; i<data['messages'].length; i++) {
@@ -51,24 +55,19 @@
     };
 
     document.querySelector('#chat-message-submit').onclick = function(e) {
+      console.log('ohio')
         var messageInputDom = document.getElementById('chat-message-input');
-        var message = messageInputDom.value;
+        // var regex = /^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/gi
+        // var holla = 
+        // messageInputDom.innerText = messageInputDom.innerText.trim()
+        var message = messageInputDom.innerHTML.replace(/(<div><br><\/div>)$/m,"");
         chatSocket.send(JSON.stringify({
             'command': 'new_message',
             'message': message,
             // 'from': username,
             'chatID':updatedRoomName === '' ? roomName : updatedRoomName
         }));
-        // var chatId = updatedRoomName === '' ? roomName : updatedRoomName
-        // var li = document.getElementById(`chat-${chatId}`)
-        // var ul = document.getElementById("contacts-ul")
-        // var firstUl = ul.querySelectorAll("li")[0]
-        // console.log(ul, li)
-        // var parag = li.getElementsByClassName("preview")[0]
-        // console.log(parag, parag.innerHTML)
-        // parag.innerHTML = message
-        // ul.insertBefore(li, firstUl)
-        messageInputDom.value = '';
+        messageInputDom.innerText = '';
       };
 
     function fetchMessages(id) {
@@ -89,7 +88,6 @@
     }
 
     function createMessage(data) {
-      console.log(data)
       var author = data['author'];
       var msgListTag = document.createElement('li');
       var newDiv = document.createElement('div');
@@ -99,13 +97,11 @@
       var smallTag = document.createElement('small');
       smallTag.className = 'date-posted'
       smallTag.textContent =  new Date(data.date_posted).getHours() + ':' + formatTime(data)
-      pTag.textContent = data.content
+      pTag.innerHTML = data.content
       newDiv.className ='msg-div'
       autPtag.textContent = author
 
-      console.log(pTag, author)
       imgTag.src = data.image_url;
-      console.log(imgTag.src, data.image_url)
       
       if (author === username) {
         console.log(author, username)
@@ -132,9 +128,7 @@
       item.addEventListener('click', function(e){
       console.log(item, item.dataset.chatid, '11111')
       $.get(`/chat/${item.dataset.chatid}/`, function(data, status){
-        if (status == "success"){
-          console.log(item, item.dataset.chatid, '11111222222')
-          
+        if (status == "success"){    
           history.pushState({
             id: 'homepage'
           }, 'Chat | something', `/chat/${item.dataset.chatid}`);
@@ -144,7 +138,6 @@
           // fetchMessages(item.dataset.chatid)
           chatSocket.onopen = function(e) {
             fetchMessages(item.dataset.chatid);
-            
           }
           chatSocket.refresh()
         }

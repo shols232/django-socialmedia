@@ -18,7 +18,7 @@
                 </div>
                     <div class="follow-box">
                         <div class="follow-text">
-                            <div class="rounded"><span>{{ followers_count }}</span> Followers</div>
+                            <div class="rounded "><span class="follow-count-span">{{ followers_count }}</span> Followers</div>
                             <div class="rounded"><span>{{ following_count }}</span> Following</div>
                         </div>
                     </div>
@@ -64,10 +64,16 @@
     }
     
     var followBtn = document.getElementById("follow-btn")
-    followBtn.addEventListener('click', function(){
-        var currentState = followBtn.value
-        console.log('{{action}}', followBtn.innerText)
-        var action = '{{action}}'
+    if(followBtn != null){
+        followBtn.addEventListener('click', function(){
+        var currentState = followBtn.innerText
+        console.log('{{action}}', currentState)
+        if (currentState == 'FOLLOW'){
+            var action = 'Follow'
+        }else{
+            var action = 'Unfollow'
+        }
+        
         var user_id = '{{user.id}}'
         var request_user_id = '{{request_user_id}}'
         var url = 'follow_unfollow/'
@@ -88,18 +94,24 @@
         })
         .then((response)=>{
             if (response.status == 'success'){
+                
+                var followSpan = document.getElementsByClassName('follow-count-span')[0]
+                var prevState = parseInt(followSpan.innerText)
+                console.log(prevState)
                 if(followBtn.innerText == 'FOLLOW'){
                     followBtn.innerText = 'Unfollow'
                     followBtn.classList.add('followed')
-                    
+                    followSpan.innerText = prevState + 1
                 }else{
                     followBtn.innerText = 'Follow'
                     followBtn.classList.remove('followed')
+                    followSpan.innerText = prevState - 1
                 }
             }
         })
     })
-
+    }
+    
     
 </script>
 
