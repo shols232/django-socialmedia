@@ -176,5 +176,5 @@ input[type=file]{
     top: 0;
     position: -webkit-sticky;
     position: sticky;
-    height: 115vh;
+    height: 100vh;
 }

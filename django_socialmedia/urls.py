@@ -20,9 +20,12 @@ from django.shortcuts import render
 from django.conf import settings
 from django.conf.urls.static import static
 from account import views as user_view
+from post import views as user_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', user_view.home, name = 'home'),
+    path('', user_views.content_list, name = "content"),
+    #path('', user_view.home, name = 'home'),
     path('chat/', include('chatapp.urls', namespace='chatapp')),
     path('account/', include('account.urls')),
     path('post/', include('post.urls')),

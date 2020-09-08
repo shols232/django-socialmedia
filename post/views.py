@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 from .forms import ContentForm,CommentForm
 from django.core.exceptions import ValidationError
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 # class ContentCreateListView(LoginRequiredMixin,CreateView, ListView):
@@ -50,7 +51,7 @@ from django.core.exceptions import ValidationError
 #         data['tag_line'] = 'Add a new post'
 #         return data
 
-
+@login_required
 def content_list(request):
     contents = Content.objects.all().order_by('-posted')
     paginator = Paginator(contents, 5)
