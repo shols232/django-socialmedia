@@ -1,11 +1,11 @@
-from django.shortcuts import render,redirect
-from .models import Content
+from django.shortcuts import render,redirect, get_object_or_404
+from .models import Content,Comment
 from account.models import Profile
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
-from .forms import ContentForm
+from .forms import ContentForm,CommentForm
 from django.core.exceptions import ValidationError
 # Create your views here.
 
@@ -75,3 +75,25 @@ def content_list(request):
         return render(request, 'post/list_content.html', {'contents':contents})
 
     return render(request, 'post/true_content.html', {'contents':contents, 'form':form})
+
+def comment_post(request, content_id):
+    content = get_object_or_404(Content, id= content_id)
+    comments = content.comments.all()
+    
+    new_comment = None
+
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.post = content
+            comment_form.instance.author = request.user
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+    return render(request, 'post/comment.html', {
+            'content':content,
+            'comments':comments,
+            'new_comment':new_comment,
+            'comment_form':comment_form
+        })
