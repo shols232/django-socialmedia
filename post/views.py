@@ -56,6 +56,7 @@ def content_list(request):
     contents = Content.objects.all().order_by('-posted')
     paginator = Paginator(contents, 5)
     page = request.GET.get('page')
+    print("kfjf")
     if request.method == 'POST':
         form = ContentForm(request.POST or None, request.FILES or None)
         if form.is_valid():           
@@ -98,3 +99,17 @@ def comment_post(request, content_id):
             'new_comment':new_comment,
             'comment_form':comment_form
         })
+
+
+# def modal_post(request):
+#     print("iihh")
+#     if request.method == 'POST':
+#         form = ContentForm(request.POST or None, request.FILES or None)
+#         if form.is_valid():           
+#             form.instance.author = request.user
+#             form.save()
+#         return redirect("content")
+#     else:
+#         form = ContentForm()
+
+#     return render(request, 'base.html', {'form':form})
