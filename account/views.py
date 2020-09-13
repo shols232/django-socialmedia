@@ -18,11 +18,11 @@ from django.contrib.auth import login
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import datetime
-from post.forms import ContentForm
+
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-# Create your views here.
+# Create your views here.                                                                                                                                                                                                                                                                   
 
 def register(request):
     if request.method == 'POST':
@@ -91,8 +91,8 @@ def profile(request, id):
         action = 'Unfollow'
     else:
         action = 'Follow'
-    
-    return render(request, 'profile.html', {'user':user, 'owner':owner, 'following_count':following_count, 'followers_count':followers_count, 'action':action, 'request_user_id':request_user.id, 'follows':follows}) 
+    return render(request, 'profile.html', {'user':user, 'owner':owner, 'following_count':following_count, 
+        'followers_count':followers_count, 'action':action, 'request_user_id':request_user.id, 'follows':follows})
 
 
 @login_required
