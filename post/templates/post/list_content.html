@@ -32,7 +32,7 @@
                 <i class="fas fa-thumbs-up fa-2x" style="color:#2196F3"></i>
             </div>
             <div class="">
-                <i class="far fa-comment fa-2x " style="color:#2196F3"></i>	
+               <a href="{% url 'comment' content.id %}"> <i class="far fa-comment fa-2x " style="color:#2196F3"></i> <h4 style="display: inline;">{{contents.comments|length}}</h4></a>
             </div>
            
             <br>
