@@ -54,6 +54,9 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def content_list(request):
     contents = Content.objects.all().order_by('-posted')
+
+    
+   # comments = Content.comments.all()
     paginator = Paginator(contents, 5)
     page = request.GET.get('page')
     print("kfjf")
@@ -75,29 +78,36 @@ def content_list(request):
         contents = paginator.page(paginator.num_pages)     
     if request.is_ajax():
         return render(request, 'post/list_content.html', {'contents':contents})
-
     return render(request, 'post/true_content.html', {'contents':contents, 'form':form})
 
 def comment_post(request, content_id):
     content = get_object_or_404(Content, id= content_id)
-    comments = content.comments.all()
-    
+    comments = Comment.objects.filter(post=content, reply=None).order_by('-created')
+
     new_comment = None
 
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
+            reply_id = request.POST.get("comment_id")
+            comment_qs = None
+            if reply_id:
+                comment_qs = Comment.objects.get(id=reply_id)
+            new_comment.reply = comment_qs
+            new_comment = comment_form.save(commit=False)          
+            
             new_comment.post = content
+            
             comment_form.instance.author = request.user
             new_comment.save()
+            return redirect(request.path)
     else:
         comment_form = CommentForm()
     return render(request, 'post/comment.html', {
             'content':content,
             'comments':comments,
             'new_comment':new_comment,
-            'comment_form':comment_form
+            'comment_form':comment_form,
         })
 
 
