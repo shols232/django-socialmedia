@@ -13,6 +13,7 @@
 
 body{
     background-color:grey;
+    display:flex;
 }
 .hide{
     display:hidden;
