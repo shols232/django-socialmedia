@@ -1,21 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Void | Home</title>
   <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+  <link rel='stylesheet prefetch'
+    href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <link rel="stylesheet" href= "{% static 'css/emojionearea.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/emojionearea.min.css' %}">
   <!-- Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design for Bootstrap -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <link rel="stylesheet" href= "{% static 'css/content.css' %}">
+  <link rel="stylesheet" href="{% static 'css/content.css' %}">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'tribute.css' %}">
   <link rel="stylesheet" href="{% static 'base.css' %}">
@@ -23,86 +25,89 @@
   {% endblock header %}
 
 </head>
-<body style="">
-<!--Navbar -->
-<!-- Central Modal Small -->
-<div class="modal fade" id="notifModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-  <!-- Change class .modal-sm to change the size of the modal -->
-  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title w-100" id="myModalLabel">Notifications</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <ul id='notifUl'>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary btn-sm">Clear Notifications</button>
+
+<body>
+  <!--Navbar -->
+  <!-- Central Modal Small -->
+  <div class="modal fade" id="notifModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- Change class .modal-sm to change the size of the modal -->
+    <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title w-100" id="myModalLabel">Notifications</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul id='notifUl'>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary btn-sm">Clear Notifications</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
- <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-<div class="modal fade " id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
- 
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-          
-          <fieldset class="form-group">
+    <div class="modal fade " id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel"
+      aria-hidden="true">
+
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+
+            <fieldset class="form-group">
               <div class="img">
-                  <img class="preview-img prev" id="label-img" src="{{form.image_content.url}}"/>
-                  <hr>
-                  <span class="material-icons xmark xmark-label" >
-                      close
-                      </span>  
+                <img class="preview-img prev" id="label-img" src="{{form.image_content.url}}" />
+                <hr>
+                <span class="material-icons xmark xmark-label">
+                  close
+                </span>
               </div>
-          <textarea name="{{form.content.name}}" id="id_label_{{form.content.name}}" class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea>
+              <textarea name="{{form.content.name}}" id="id_label_{{form.content.name}}" class="form-control"
+                style="display: none;" placeholder="what's on your mind?"></textarea>
 
-          <input type="file" name="{{form.image_content.name}}" id="label_{{form.image_content.name}}" class="image-label" accept="image/*">
-          <label for="label_{{form.image_content.name}}"><span class="material-icons md-36 label modellabel">
-              add_photo_alternate
-              </span>
-          </label>
-             </fieldset>
+              <input type="file" name="{{form.image_content.name}}" id="label_{{form.image_content.name}}"
+                class="image-label" accept="image/*">
+              <label for="label_{{form.image_content.name}}"><span class="material-icons md-36 label modellabel">
+                  add_photo_alternate
+                </span>
+              </label>
+            </fieldset>
+          </div>
+
+
+
+          <div class="modal-footer">
+
+            <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
+
+          </div>
+        </div>
+        {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+        {% endfor %}
+        </p>
       </div>
+  </form>
 
-    
-      
-      <div class="modal-footer">
-           
-          <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
-
-      </div>
-    </div>
-      {% for error in field.errors %}
-      <p style="color: red">{{ error }}</p>
-      {% endfor %}
-      </p>
-         </div>
-    </form>  
- 
   </div>
 
   {% for message in messages %}
-<div class="container-fluid p-0">
-  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{ message }}
+  <div class="container-fluid p-0">
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
   </div>
-</div>
-{% endfor %}
+  {% endfor %}
 
-  <div class="container" >
+  <div class="container">
 
     <!-- {% if messages %}
         {% for message in messages %}
@@ -110,67 +115,75 @@ aria-hidden="true">
         {% endfor %}
     {% endif %} -->
   </div>
-{% block navbar %}
+  {% block navbar %}
 
-<div class="row">
+  <div class="row">
 
-<aside class="col-2 test side-bar " >
-<div class="text-center">
+    <aside class="col-2 test side-bar ">
+      <div class="text-center">
 
-   
-  <ul class="side-table">
-     <center>   <li> <a class="side-item" href="{% url 'content' %}">
-                 <img src="{% static 'logo/void.png' %}" 
-                   alt="Void" class="Logo"> </a></li></center> 
-             <li>  <a class="side-item" href="{% url 'content' %}"><span class="material-icons side">
-                 home
-                 </span></a></li>
-             <li><a class="side-item" href="{% url 'chatapp:room_bare' %}"><span class="material-icons side">
-                 message
-                 </span></a></li>
-             <li>
-               <a id="dropdown-notifications" data-toggle="modal" data-target="#notifModal" class="side-item" href=""><span class="material-icons side">
-                 notification_important
-                </span>
-              </a>
-             </li>
-             <li>
-               <a class="side-item" href="{% url 'profile' request.user.id %}"><span class="material-icons side">
-                 account_circle
-                 </span>
-                </a>
+
+        <ul class="side-table">
+          <center>
+            <li>
+              <a class="side-item" href="{% url 'content' %}">
+                <img src="{% static 'logo/void.png' %}" alt="Void" class="Logo"></a>
               </li>
-             <li>
-               <a class="side-item" href="{% url 'logout' %}"><span class="material-icons side">
-                 power_settings_new
-                 </span>
-                </a>
-              </li>
-             <li>
-               <a class="side-item" href="" data-toggle = 'modal' data-target='#postModal'><span class="material-icons side">
-                 add_circle
-                 </span>
-              </a>
-              </li>
-         </ul>
-     </div>
-</aside>
+          </center>
+          <li>
+            <a class="side-item" href="{% url 'content' %}">
+              <span class="material-icons side">
+                home
+              </span>
+            </a></li>
+          <li><a class="side-item" href="{% url 'chatapp:room_bare' %}"><span class="material-icons side">
+                message
+              </span></a></li>
+          <li>
+            <a id="dropdown-notifications" data-toggle="modal" data-target="#notifModal" class="side-item" href=""><span
+                class="material-icons side">
+                notification_important
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="side-item" href="{% url 'profile' request.user.id %}"><span class="material-icons side">
+                account_circle
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="side-item" href="{% url 'logout' %}"><span class="material-icons side">
+                power_settings_new
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="side-item" href="" data-toggle='modal' data-target='#postModal'><span class="material-icons side">
+                add_circle
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
 
-{% endblock navbar %}
-<!--/.Navbar -->
-{% block content %}
-<!-- <div class="card">
+    {% endblock navbar %}
+    <!--/.Navbar -->
+    {% block content %}
+    <!-- <div class="card">
   {% if messages %}
         {% for message in messages %}
          <h1>{{ message }}</h1>
         {% endfor %}
     {% endif %} 
 </div> -->
-</div>
+  </div>
 
-{% endblock content %}
+  {% endblock content %}
   <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
   <script src="{% static 'js/infinite.min.js' %}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -179,49 +192,55 @@ aria-hidden="true">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script src="{% static 'reconnecting_websockets.js' %}"></script>
   <script src="{% static 'tribute.js' %}"></script>
-  
-  {% block js %}
-  {% endblock js %}
 
   <script>
     function getToken(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
-        const csrftoken = getToken('csrftoken');
+      }
+      return cookieValue;
+    }
+    const csrftoken = getToken('csrftoken');
+
+    // ajax setup
+    $.ajaxSetup({
+      headers:{
+        "X-CSRFToken":csrftoken,
+      }
+    });
+
+
     new WOW().init();
     var notifSpan = document.getElementsByClassName('notifications-count')[0]
     var dropdownNotifications = document.getElementById('dropdown-notifications')
     var notifUserId = '{{ request.user.id }}'
-    dropdownNotifications.addEventListener('click', function(){
+    dropdownNotifications.addEventListener('click', function () {
       console.log('hoyyyyy')
-      $.get('/account/user_notifs/', {user_id: notifUserId},   function(data){
+      $.get('/account/user_notifs/', { user_id: notifUserId }, function (data) {
         return
-    }).then((data) => {
-      $('#notifUl').html('')
-        for (var i=0; i<data.length; i++){
+      }).then((data) => {
+        $('#notifUl').html('')
+        for (var i = 0; i < data.length; i++) {
           console.log(data)
-          if (data[i]["message_type"] == "user_follow"){
+          if (data[i]["message_type"] == "user_follow") {
             let read;
-            if(data[i]["read"] == false){
+            if (data[i]["read"] == false) {
               read = 'message-read'
               console.log(data[i]["read"])
-            }else{
+            } else {
               read = ''
             }
             $('#notifUl').append(
-            `<li><a class="dropdown-item user-notif-follow ${read}" href="account/profile/${data[i].user_id}">
+              `<li><a class="dropdown-item user-notif-follow ${read}" href="account/profile/${data[i].user_id}">
               <div>
                 <span>You have a new follower<span>
                 <div>
@@ -230,95 +249,98 @@ aria-hidden="true">
               </div>
             </a>`
             )
-          }  
+          }
         }
-      notifSpan.innerText = 0
+        notifSpan.innerText = 0
+      })
+
     })
-    
-  })
 
-  // websocket for notifications
+    // websocket for notifications
 
-  var loc = window.location
+    var loc = window.location
     var wsStart = "ws://"
-    if (loc.protocol == "https:"){
-        wsStart = "wss://"
+    if (loc.protocol == "https:") {
+      wsStart = "wss://"
     }
-    var webSocketEndpoint =  wsStart + loc.host + '/ws/notifications/'  // ws : wss   // Websocket URL, Same on as mentioned in the routing.py
+    var webSocketEndpoint = wsStart + loc.host + '/ws/notifications/'  // ws : wss   // Websocket URL, Same on as mentioned in the routing.py
 
 
     var socket = new ReconnectingWebSocket(webSocketEndpoint) // Creating a new Web Socket Connection
 
     // Socket On receive message Functionality
-    socket.onmessage = function(e){
-        console.log('message', e)
-        var data = JSON.parse(e.data)
+    socket.onmessage = function (e) {
+      console.log('message', e)
+      var data = JSON.parse(e.data)
 
-        if(data['status']=="success"){
-            notifSpan.innerText = data["count"]
-        }
+      if (data['status'] == "success") {
+        notifSpan.innerText = data["count"]
+      }
     }
 
     // Socket Connet Functionality
-    socket.onopen = function(e){
-        console.log('open', e)
+    socket.onopen = function (e) {
+      console.log('open', e)
     }
 
     // Socket Error Functionality
-    socket.onerror = function(e){
-        console.log('error', e)
+    socket.onerror = function (e) {
+      console.log('error', e)
     }
 
     // Socket close Functionality
-    socket.onclose = function(e){
-        console.log('closed', e)
+    socket.onclose = function (e) {
+      console.log('closed', e)
     }
-    $(document).ready(function(){
-    $("#id_label_{{form.content.name}}").emojioneArea({
+    $(document).ready(function () {
+      $("#id_label_{{form.content.name}}").emojioneArea({
         pickerPosition: "bottom",
         autocomplete: false
-        
-    });
-}) 
+
+      });
+    })
 
 
-function readURLModel(input) {
-        if (input.files && input.files[0]) {
+    function readURLModel(input) {
+      if (input.files && input.files[0]) {
         var reader = new FileReader();
 
-        reader.onload = function(e) {
-        console.log(e.target.result)
-        $('#label-img').attr('src', e.target.result);
+        reader.onload = function (e) {
+          console.log(e.target.result)
+          $('#label-img').attr('src', e.target.result);
         }
 
         reader.readAsDataURL(input.files[0]); // convert to base64 string
-        }
-        }
+      }
+    }
 
-        $(function () {
-        $('#label-img').css('display', 'none');
-        $('.xmark').css('display', 'none');
-        $(".image-label").change(function() {
+    $(function () {
+      $('#label-img').css('display', 'none');
+      $('.xmark').css('display', 'none');
+      $(".image-label").change(function () {
         readURLModel(this);
 
         $('#label-img').on('load', function () {
-        $(this).css('display', 'block');
-        $('.xmark-label').css('display', 'block');
+          $(this).css('display', 'block');
+          $('.xmark-label').css('display', 'block');
         });
-        });
+      });
 
-});
+    });
 
 
   </script>
- <script>
-  $('.xmark').on('click',function(){
+  <script>
+    $('.xmark').on('click', function () {
       $(".image").val('');
       $('.xmark').css('display', 'none');
       $('.preview-img').css('display', 'none');
-    
-  }); 
-</script>
-<script src="{% static 'js/emojionearea.min.js' %}"></script>  
+
+    }); 
+  </script>
+  <script src="{% static 'js/emojionearea.min.js' %}"></script>
+  {% block js %}
+  {% endblock js %}
 </body>
+
 </html>

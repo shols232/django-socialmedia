@@ -3,164 +3,158 @@
 {% load crispy_forms_tags %}
 {% load el_pagination_tags %}
 {% block header %}
-<link rel="stylesheet" href= "{% static 'css/content.css' %}">
+<link rel="stylesheet" href="{% static 'css/content.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock header %}
 
 {% block content %}
 
 <div class="row">
-<aside class="col-sm-2 test">
-</aside> 
-<aside class="col-sm-6 test">
-  <div class="post">
+    <aside class="col-sm-2 test">
+    </aside>
+    <aside class="col-sm-6 test">
+        <div class="post">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>
+                <fieldset class="form-group">
+                    <textarea name="{{form.content.name}}" id="id_{{form.content.name}}" class="form-control"
+                        style="display: none;" placeholder="what's on your mind?"></textarea>
+                </fieldset>
+                <div id="content-preview">
+                    <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}"
+                        class="image" accept="image/*">
+                    <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup">
+                            add_photo_alternate
+                        </span>
+                    </label>
 
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <p>
-            <fieldset class="form-group">
-             <textarea name="{{form.content.name}}" id="id_{{form.content.name}}" class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea>
-           
-            </fieldset>
-            <div id="content-preview">
-           
-            <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image" accept="image/*">
-            <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup">
-                add_photo_alternate
-                </span>
-            </label>
-                
-                
-             </div>
-           
-
-        {% for error in field.errors %}
-        <p style="color: red">{{ error }}</p>
-        {% endfor %}
-        </p>
-
-        
-        <div class="text-right">
-        <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
-         </div>
-         <center>
-            <img class="preview-img" src="{{form.image_content.url}}"  width="200" height="300"/>
-        </center>
-    </form>  
-
-</div>
+                </div>
 
 
-<hr>
-<br>
+                {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+                {% endfor %}
+                </p>
 
-<div class="infinite-container">
-    {% paginate contents %}
-{% for content in contents %}
 
-<div class="card" id="card">
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-       <center>     <img src="{{ content.author.profile.image.url }}" style="margin-top:10px;" class="rounded-circle z-depth-0"
-    alt="avatar image" height="50" width="50"> </center>
+                <div class="text-right">
+                    <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
+                </div>
+                <center>
+                    <img class="preview-img" src="{{form.image_content.url}}" width="200" height="300" />
+                </center>
+            </form>
+
         </div>
-        <div class="col-md-10">
-            <br>
-            <a class="bg-blue" href="{% url 'profile' content.author.id %}">
-            @{{ content.author.username }}</a>
-            <br>
-           <small>{{ content.posted  | timesince }}
-            <i class="fas fa-clock "></i></small>
-                <hr>
-          <h4> <span class="emoji">{{ content.content }} </span></h4>
-          {% if content.image_content %}
-    
-            <img src="  {{content.image_content.url}}"  
-            alt="avatar image" height="500" width="400">
-          {% endif %}
-                <br>
-            <hr>
-            <div class="inline text-right">
-                <i class="fas fa-thumbs-up fa-2x" style="color:#2196F3"></i>
+
+
+        <hr>
+        <br>
+
+        <div class="infinite-container">
+            {% paginate contents %}
+            {% for content in contents %}
+
+            <div class="card" id="card">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <center> <img src="{{ content.author.profile.image.url }}" style="margin-top:10px;"
+                                    class="rounded-circle z-depth-0" alt="avatar image" height="50" width="50">
+                            </center>
+                        </div>
+                        <div class="col-md-10">
+                            <br>
+                            <a class="bg-blue" href="{% url 'profile' content.author.id %}">
+                                @{{ content.author.username }}</a>
+                            <br>
+                            <small>{{ content.posted  | timesince }}
+                                <i class="fas fa-clock "></i></small>
+                            <hr>
+                            <h4> <span class="emoji">{{ content.content }} </span></h4>
+                            {% if content.image_content %}
+
+                            <img src="  {{content.image_content.url}}" alt="avatar image" height="500" width="400">
+                            {% endif %}
+                            <br>
+                            <hr>
+                            <div class="inline text-right">
+                                <i class="fas fa-thumbs-up fa-2x" style="color:#2196F3"></i>
+                            </div>
+                            <div class="">
+                                <i class="far fa-comment fa-2x " style="color:#2196F3"></i>
+                            </div>
+
+                            <br>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="">
-                <i class="far fa-comment fa-2x " style="color:#2196F3"></i>	
-            </div>
-           
+
             <br>
+            {% endfor %}
         </div>
-    </div>
-</div>
-</div>
 
-<br> 
-{% endfor %}
-</div>
-
-<div id="sentinel"></div>
+        <div id="sentinel"></div>
 
 
 
-</aside>
+    </aside>
 
-<aside class="col-sm-4 test" >
-</aside>
+    <aside class="col-sm-4 test">
+    </aside>
 </div>
 
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/emojionearea.min.js' %}"></script>  
+<script src="{% static 'js/emojionearea.min.js' %}"></script>
 <script>
-$(document).ready(function(){
-    $("#id_{{form.content.name}}").emojioneArea({
-        pickerPosition: "bottom"
-    });
-}) 
+    $(document).ready(function () {
+        $("#id_{{form.content.name}}").emojioneArea({
+            pickerPosition: "bottom"
+        });
+    })
 
-function readURL(input) {
+    function readURL(input) {
         if (input.files && input.files[0]) {
-        var reader = new FileReader();
+            var reader = new FileReader();
 
-        reader.onload = function(e) {
-        console.log(e.target.result)
-        $('.preview-img').attr('src', e.target.result);
-        }
+            reader.onload = function (e) {
+                console.log(e.target.result)
+                $('.preview-img').attr('src', e.target.result);
+            }
 
-        reader.readAsDataURL(input.files[0]); // convert to base64 string
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
         }
-        }
+    }
 
-        $(function () {
+    $(function () {
         $('.preview-img').css('display', 'none');
-        $(".image").change(function() {
-        readURL(this);
+        $(".image").change(function () {
+            readURL(this);
 
-        $('.preview-img').on('load', function () {
-        $(this).css('display', 'block');
-        });
+            $('.preview-img').on('load', function () {
+                $(this).css('display', 'block');
+            });
         });
 
-});
+    });
 
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    let sentinel = document.getElementById("sentinel");
-  
-    let observer = new IntersectionObserver((entries) => {
-      entry = entries[0];
-      if (entry.intersectionRatio > 0) {
-          alert("This happened");
-      }
+    document.addEventListener("DOMContentLoaded", () => {
+        let sentinel = document.getElementById("sentinel");
+
+        let observer = new IntersectionObserver((entries) => {
+            entry = entries[0];
+            if (entry.intersectionRatio > 0) {
+                alert("This happened");
+            }
+        })
+        observer.observe(sentinel);
     })
-    observer.observe(sentinel);
-  })
 </script>
 {% endblock js %}
-
-    
-    

@@ -1,0 +1,50 @@
+.reactions{
+    display: grid;
+    margin-top:20px;
+    max-height:220px;
+}
+
+.reaction-comment{
+    grid-row: 4/5;
+    text-align: center;
+    font-size:13px;
+}
+
+.reaction-like{
+    grid-row: 2/3;
+    font-size:13px;
+    height: 28px;
+}
+
+.post_likes_count{
+    grid-row: 1/2;
+    padding:0;
+    margin:0;
+    text-align: center;
+    height:2px;
+
+}
+
+.bg-blue{
+    color: rgb(15, 140, 179);
+    font-size:17px;
+    font-weight:200%;
+    font-family:Verdana, sans-serif;
+}
+
+.bg-blue:hover{
+    color: rgb(5, 107, 138);
+}
+
+.jsgif canvas{
+    height: 37px;
+    width:37px;
+    position: relative;
+    left:-127px;
+}
+
+.heart-gif{
+    cursor: pointer;
+    position:relative;
+    top:-8px;
+}

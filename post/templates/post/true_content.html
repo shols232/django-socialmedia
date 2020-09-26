@@ -2,12 +2,13 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block header %}
-<link rel="stylesheet" href= "{% static 'css/content.css' %}">
+<link rel="stylesheet" href="{% static 'css/content.css' %}">
+<link rel="stylesheet" href="{% static 'css/list_content.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tributejs@3.5.3/dist/tribute.css">
 {% endblock header %}
 
-    
+
 {% block content %}
 <!-- <div class="row">
 <aside class="col-2 test side-bar " >
@@ -41,64 +42,64 @@
         </div>
 
 </aside> -->
-<aside class="col-sm-6 col-10 test right " >
+<aside class="col-sm-6 col-10 test right ">
     <div class="post">
 
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-    
+
             <p>
-                <div class="img">
-                    <img class="preview-img prev" src="{{form.image_content.url}}"/>
-                    <hr>
-                    <span class="material-icons xmark" >
-                        close
-                        </span>  
-                </div>
-                
-                    
-            
-                
-                <fieldset class="form-group">
-                 <textarea name="{{form.content.name}}" id="id_{{form.content.name}}" class="form-control id_{{form.content.name}}" style="display: none;" placeholder="what's on your mind?"></textarea>
-                 
-                </fieldset>
-                <div id="content-preview">
-               
-                <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image" accept="image/*">
+            <div class="img">
+                <img class="preview-img prev" src="{{form.image_content.url}}" />
+                <hr>
+                <span class="material-icons xmark">
+                    close
+                </span>
+            </div>
+
+            <fieldset class="form-group">
+                <textarea name="{{form.content.name}}" id="id_{{form.content.name}}"
+                    class="form-control id_{{form.content.name}}" style="display: none;"
+                    placeholder="what's on your mind?"></textarea>
+
+            </fieldset>
+            <div id="content-preview">
+
+                <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image"
+                    accept="image/*">
                 <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup label">
-                    add_photo_alternate
+                        add_photo_alternate
                     </span>
                 </label>
-                    
-                    
-                 </div>
-               
-    
+
+
+            </div>
+
+
             {% for error in field.errors %}
             <p style="color: red">{{ error }}</p>
             {% endfor %}
             </p>
-    
-            
+
+
             <div class="text-right">
-            <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
-             </div>
-             <center>
-               
+                <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
+            </div>
+            <center>
+
             </center>
-        </form>  
-    
+        </form>
+
     </div>
-    
-    
+
+
     <hr>
     <br>
-<div class="infinite-container">
-    {% include 'post/list_content.html' %}
-</div>
-<!-- 
+    <div class="infinite-container">
+        {% include 'post/list_content.html' %}
+    </div>
+    <!-- 
 <div class="modal fade " id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -140,7 +141,7 @@
     </div> -->
 
 
-<!-- <form method="post" enctype="multipart/form-data">
+    <!-- <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -183,110 +184,107 @@
 </aside>
 
 
-<aside class="col-sm-4 test "  >
+<aside class="col-sm-4 test ">
 </aside>
 </div>
 <!-- Button trigger modal -->
 
-  
-  <!-- Modal -->
-  
+
+<!-- Modal -->
+
 {% endblock content %}
 
-
-
-
 {% block js %}
-<script src="{% static 'js/emojionearea.min.js' %}"></script>  
+<script src="{% static 'js/emojionearea.min.js' %}"></script>
 <script>
-$(document).ready(function(){
-    $(".id_{{form.content.name}}").emojioneArea({
-        pickerPosition: "bottom",
-        textcomplete: {
-        maxCount  : 10,
-        placement : null
-    }
+    $(document).ready(function () {
+        $(".id_{{form.content.name}}").emojioneArea({
+            pickerPosition: "bottom",
+            textcomplete: {
+                maxCount: 10,
+                placement: null
+            }
+        });
     });
-}) ;
 
-// $(document).ready(function(){
-//     $("#id_label_{{form.content.name}}").emojioneArea({
-//         pickerPosition: "bottom",
-//         autocomplete: false
-        
-//     });
-// }) 
+    // $(document).ready(function(){
+    //     $("#id_label_{{form.content.name}}").emojioneArea({
+    //         pickerPosition: "bottom",
+    //         autocomplete: false
 
-// function readURLModel(input) {
-//         if (input.files && input.files[0]) {
-//         var reader = new FileReader();
+    //     });
+    // }) 
 
-//         reader.onload = function(e) {
-//         console.log(e.target.result)
-//         $('#label-img').attr('src', e.target.result);
-//         }
+    // function readURLModel(input) {
+    //         if (input.files && input.files[0]) {
+    //         var reader = new FileReader();
 
-//         reader.readAsDataURL(input.files[0]); // convert to base64 string
-//         }
-//         }
+    //         reader.onload = function(e) {
+    //         console.log(e.target.result)
+    //         $('#label-img').attr('src', e.target.result);
+    //         }
 
-//         $(function () {
-//         $('#label-img').css('display', 'none');
-//         $('.xmark').css('display', 'none');
-//         $(".image-label").change(function() {
-//         readURLModel(this);
+    //         reader.readAsDataURL(input.files[0]); // convert to base64 string
+    //         }
+    //         }
 
-//         $('#label-img').on('load', function () {
-//         $(this).css('display', 'block');
-//         $('.xmark-label').css('display', 'block');
-//         });
-//         });
+    //         $(function () {
+    //         $('#label-img').css('display', 'none');
+    //         $('.xmark').css('display', 'none');
+    //         $(".image-label").change(function() {
+    //         readURLModel(this);
 
-// });
+    //         $('#label-img').on('load', function () {
+    //         $(this).css('display', 'block');
+    //         $('.xmark-label').css('display', 'block');
+    //         });
+    //         });
 
-function readURL(input) {
+    // });
+
+    function readURL(input) {
         if (input.files && input.files[0]) {
-        var reader = new FileReader();
+            var reader = new FileReader();
 
-        reader.onload = function(e) {
-        console.log(e.target.result)
-        $('.preview-img').attr('src', e.target.result);
-        }
+            reader.onload = function (e) {
+                console.log(e.target.result)
+                $('.preview-img').attr('src', e.target.result);
+            }
 
-        reader.readAsDataURL(input.files[0]); // convert to base64 string
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
         }
-        }
+    }
 
-        $(function () {
+    $(function () {
         $('.preview-img').css('display', 'none');
         $('.xmark').css('display', 'none');
-        $(".image").change(function() {
-        readURL(this);
+        $(".image").change(function () {
+            readURL(this);
 
-        $('.preview-img').on('load', function () {
-        $(this).css('display', 'block');
-        $('.xmark').css('display', 'block');
-        });
+            $('.preview-img').on('load', function () {
+                $(this).css('display', 'block');
+                $('.xmark').css('display', 'block');
+            });
         });
 
-});
+    });
 
 </script>
- <script>
+<script>
     var page = 1;
     var empty_page = false;
     var block_request = false;
 
-    $(window).scroll(function(){
+    $(window).scroll(function () {
         var margin = $(document).height() - $(window).height() - 200;
-        if($(window).scrollTop() > margin && empty_page == false && block_request == false){
+        if ($(window).scrollTop() > margin && empty_page == false && block_request == false) {
             block_request = true;
             page += 1;
-            $.get('?page='+ page, function(data){
-                if(data==''){
-                    empty_page =  true;
+            $.get('?page=' + page, function (data) {
+                if (data == '') {
+                    empty_page = true;
                 }
-                else{
+                else {
                     block_request = false;
                     $('.infinite-container').append(data);
                 }
@@ -295,27 +293,27 @@ function readURL(input) {
     });
 </script>
 <script>
-    $('.xmark').on('click',function(){
+    $('.xmark').on('click', function () {
         $(".image").val('');
         $('.xmark').css('display', 'none');
         $('.preview-img').css('display', 'none');
-      
+
     }); 
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script>
-  <script>
- var tribute = new Tribute({
-    values: [
-              { key: 'Phil', value: 'pheartman' },
-              { key: 'Gordon', value: 'gramsey' },
-              { key: 'Jacob', value: 'jacob' },
-              { key: 'Ethan', value: 'ethan' },
-              { key: 'Emma', value: 'emma' },
-              { key: 'Isabella', value: 'isabella' }
-            ],
-    
-  });
-  tribute.attach(document.getElementsByClassName("id_content"));
-  </script>
- 
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script>
+<script>
+    var tribute = new Tribute({
+        values: [
+            { key: 'Phil', value: 'pheartman' },
+            { key: 'Gordon', value: 'gramsey' },
+            { key: 'Jacob', value: 'jacob' },
+            { key: 'Ethan', value: 'ethan' },
+            { key: 'Emma', value: 'emma' },
+            { key: 'Isabella', value: 'isabella' }
+        ],
+
+    });
+    tribute.attach(document.getElementsByClassName("id_content"));
+</script>
+
 {% endblock js %}

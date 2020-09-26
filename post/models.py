@@ -10,7 +10,7 @@ class Content(models.Model):
     content = models.TextField(blank=True,null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     posted = models.DateTimeField(default=timezone.now)
-    likes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name='my_likes')
     image_content = models.ImageField(upload_to='content/', blank=True, null=True, default = None)
 
     # @property
@@ -42,3 +42,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content[:6]
+

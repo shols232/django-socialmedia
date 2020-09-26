@@ -13,7 +13,7 @@
 
 body{
     background-color:grey;
-    display:flex;
+    /* display:flex; */
 }
 .hide{
     display:hidden;
@@ -38,3 +38,4 @@ body{
 .message-read span {
     font-weight:500;
 }
+

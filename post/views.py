@@ -3,7 +3,7 @@ from .models import Content,Comment
 from account.models import Profile
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 from .forms import ContentForm,CommentForm
 from django.core.exceptions import ValidationError
@@ -59,7 +59,6 @@ def content_list(request):
    # comments = Content.comments.all()
     paginator = Paginator(contents, 5)
     page = request.GET.get('page')
-    print("kfjf")
     if request.method == 'POST':
         form = ContentForm(request.POST or None, request.FILES or None)
         if form.is_valid():           
@@ -109,6 +108,28 @@ def comment_post(request, content_id):
             'new_comment':new_comment,
             'comment_form':comment_form,
         })
+
+
+def like_post(request):
+    if request.is_ajax():
+        print(request.POST)
+        post_id = request.POST['post_id']
+        action = request.POST['action']
+        user = request.user
+        post = Content.objects.get(id=post_id)
+        exists = post.likes.filter(username=user.username).exists()
+
+        if exists:
+            if action == 'unlike':
+                post.likes.remove(user)
+        else:
+            if action == 'like':
+                post.likes.add(user)
+        return JsonResponse({'success':True}, status=200)
+    return HttpResponse({'message':'Sorry, You cannot perform that action'}, status=200)
+    
+            
+
 
 
 # def modal_post(request):
