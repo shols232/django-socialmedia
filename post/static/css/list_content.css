@@ -1,27 +1,33 @@
 .reactions{
     display: grid;
     margin-top:20px;
-    max-height:220px;
+    max-height:200px;
 }
 
 .reaction-comment{
     grid-row: 4/5;
     text-align: center;
+    /* grid-column-start: 2; */
     font-size:13px;
+    margin-right: 44%;
+    display: block;
 }
 
 .reaction-like{
     grid-row: 2/3;
-    font-size:13px;
+    grid-column-start: 2;
+    /* font-size:13px; */
     height: 28px;
 }
 
 .post_likes_count{
     grid-row: 1/2;
+    grid-column-start: 2;
     padding:0;
     margin:0;
     text-align: center;
     height:2px;
+    /* display: block; */
 
 }
 
