@@ -21,6 +21,11 @@
             console.log(data["status"])
             window.location.replace(window.location.origin + `/chat/`)
           }else{
+            if (window.innerWidth < 740){
+              console.log('000000000000000000000000000000000000000000000001111111111')
+              document.getElementById('sidepanel').style.display = 'none'
+              document.querySelector('.content').style.display = 'block'
+            }
             for (let i=0; i<data['messages'].length; i++) {
               createMessage(data['messages'][i]);
             }
@@ -126,9 +131,10 @@
     var contact = document.querySelectorAll('.contact')
     contact.forEach(item => {
       item.addEventListener('click', function(e){
-      console.log(item, item.dataset.chatid, '11111')
+      console.log('aleeyyyyyoopppppppppppppppppp222222222222222')
       $.get(`/chat/${item.dataset.chatid}/`, function(data, status){
         if (status == "success"){    
+          console.log('aleeyyyyyoopppppppppppppppppp111113333333111')
           history.pushState({
             id: 'homepage'
           }, 'Chat | something', `/chat/${item.dataset.chatid}`);
@@ -137,6 +143,7 @@
           updatedRoomName = item.dataset.chatid
           // fetchMessages(item.dataset.chatid)
           chatSocket.onopen = function(e) {
+            
             fetchMessages(item.dataset.chatid);
           }
           chatSocket.refresh()

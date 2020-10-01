@@ -84,6 +84,7 @@ def profile(request, id):
     followers_count = user.followers.count()
     following_count = user.following.count()
     owner = False
+    print(request.user.content.count)
     if request_user == user:
         owner = True
 
@@ -103,6 +104,7 @@ def edit_profile(request):
         print(request.POST)
         u_form = UpdateUserForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        print(request.FILES)
         if u_form.is_valid():
             p_form.save()
             u_form.save()
@@ -133,7 +135,7 @@ def follow_action(request):
     following_user = User.objects.get(id=following_user_id)
     user = User.objects.get(id=user_id)
     follows = user.followers.filter(following_user_id=following_user).exists()
-
+    print(action)
     if action == 'Follow':
         if not follows:
             UserFollowing.objects.create(following_user_id=following_user,user_id=user)
@@ -189,7 +191,9 @@ def notifications(request):
                 'from_user':notif.from_user.username,
                 'message_type':notif.message_type,
                 'message':notif.message,
-                'read':notif.read
+                'read':notif.read,
+                'pic':notif.from_user.profile.image.url,
+                'time':notif.timestamp.strftime("%b. %d, %H:%M")
             })
             notif.read = True
             notif.save()

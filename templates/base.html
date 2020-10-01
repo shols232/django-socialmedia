@@ -1,4 +1,6 @@
 {% load static %}
+{% load notifs %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,17 +33,20 @@
   <!-- Central Modal Small -->
   <div class="modal fade" id="notifModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <!-- Change class .modal-sm to change the size of the modal -->
-    <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-scrollable " role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title w-100" id="myModalLabel">Notifications</h4>
+          <h4 class="modal-title w-70" id="myModalLabel">Notifications</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <ul id='notifUl'>
-          </ul>
+            <div class="notify-drop-content">
+              <ul id='notifUl' class="notify-drop">
+                
+              </ul>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
@@ -83,7 +88,7 @@
 
           <div class="modal-footer">
 
-            <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
+            <button class="btn btn-lg btn-primary text-uppercase" id="border1" type="submit">Post</button>
 
           </div>
         </div>
@@ -107,80 +112,67 @@
   </div>
   {% endfor %}
 
-  <div class="container">
-
-    <!-- {% if messages %}
-        {% for message in messages %}
-         <h1>{{ message }}</h1>
-        {% endfor %}
-    {% endif %} -->
-  </div>
+  <div class="container-fluid">
   {% block navbar %}
-
   <div class="row">
-
-    <aside class="col-2 test side-bar ">
+    <aside class="col-2 d-flex justify-content-center side-bar p-0">
       <div class="text-center">
-
-
         <ul class="side-table">
           <center>
             <li>
               <a class="side-item" href="{% url 'content' %}">
-                <img src="{% static 'logo/void.png' %}" alt="Void" class="Logo"></a>
+                <img src="{% static 'logo/void.png' %}" alt="Void" height="60" width="60"></a>
               </li>
           </center>
           <li>
-            <a class="side-item" href="{% url 'content' %}">
-              <span class="material-icons side">
-                home
-              </span>
-            </a></li>
-          <li><a class="side-item" href="{% url 'chatapp:room_bare' %}"><span class="material-icons side">
-                message
-              </span></a></li>
-          <li>
-            <a id="dropdown-notifications" data-toggle="modal" data-target="#notifModal" class="side-item" href=""><span
-                class="material-icons side">
-                notification_important
-              </span>
+            <a class="side-item" href="{% url 'content' %}"><img 
+              src="{% static 'sidebar_icons/home_40.png' %}"  height="40" width="40" alt="notif">
             </a>
+            <span class="sidebar-icon-text">Home</span>
           </li>
           <li>
-            <a class="side-item" href="{% url 'profile' request.user.id %}"><span class="material-icons side">
-                account_circle
-              </span>
+            <a class="side-item" href="{% url 'chatapp:room_bare' %}"><img 
+              src="{% static 'sidebar_icons/chat_64.png' %}"  height="50" width="50" alt="notif">
             </a>
+            <span class="sidebar-icon-text">Messages</span>
           </li>
           <li>
-            <a class="side-item" href="{% url 'logout' %}"><span class="material-icons side">
-                power_settings_new
-              </span>
+            <div class="mx-auto" style="width:75px;min-width: 75px;padding-left: 3.0px;">
+            <a id="dropdown-notifications" data-toggle="modal" data-target="#notifModal" class="side-item" href=""><img 
+              src="{% static 'sidebar_icons/bell_64.png' %}"  height="50" width="50" alt="notif">
             </a>
+            <span class="notif-num">{{ request.user|unread_notifs }}</span>
+            <span class="sidebar-icon-text">Notifications</span>
+          </div>
           </li>
           <li>
-            <a class="side-item" href="" data-toggle='modal' data-target='#postModal'><span class="material-icons side">
-                add_circle
-              </span>
+            <a class="side-item" href="{% url 'profile' request.user.id %}"><img 
+              src="{% static 'sidebar_icons/user_2_40.png' %}"  height="40" width="40" alt="notif">
             </a>
+            <span class="sidebar-icon-text">Profile</span>
+          </li>
+          <li>
+            <a class="side-item" href="{% url 'logout' %}"><img 
+              src="{% static 'sidebar_icons/options_40.png' %}"  height="40" width="40" alt="notif">
+            </a>
+            <span class="sidebar-icon-text">Options</span>
+          </li>
+          <li>
+            <a class="side-item" href="" data-toggle='modal' data-target='#postModal'><img 
+              src="{% static 'sidebar_icons/plane_40.png' %}"  height="40" width="40" alt="message">
+            </a>
+            <span class="sidebar-icon-text">Post</span>
           </li>
         </ul>
       </div>
     </aside>
-
     {% endblock navbar %}
-    <!--/.Navbar -->
-    {% block content %}
-    <!-- <div class="card">
-  {% if messages %}
-        {% for message in messages %}
-         <h1>{{ message }}</h1>
-        {% endfor %}
-    {% endif %} 
-</div> -->
-  </div>
 
-  {% endblock content %}
+    {% block content %}
+
+    {% endblock content %}
+  </div>
+  </div>
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -193,7 +185,31 @@
   <script src="{% static 'reconnecting_websockets.js' %}"></script>
   <script src="{% static 'tribute.js' %}"></script>
 
+
+  <!-- share/echo post modal func. -->
   <script>
+    console.log('aliuuuuuuu')
+    $('#modalLoginAvatar').on('show.bs.modal', function (event) {
+      var triggerElement = $(event.relatedTarget); // Button that triggered 
+      console.log(event, triggerElement, 'hhh')
+      var cItem = triggerElement.parents('.cardbox')
+      console.log(cItem.children('.cardbox-item')[0])
+      var modalEcho = document.getElementById('modal-echo-body')
+      cHeading = cItem.find('.media')[0].cloneNode(true)
+      console.log(cHeading)
+      cardBHead = document.createElement('div')
+      cardBHead.appendChild(cHeading)
+      cardBHead.className = 'cardbox-header modal-cardbox-header'
+      modalEcho.append(cardBHead)
+      modalEcho.appendChild(cItem.children('.cardbox-item')[0].cloneNode(true))
+      modalEcho.className = 'modal-cardbox'
+
+
+    });
+</script>
+
+  <script>
+    
     function getToken(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {
@@ -224,7 +240,6 @@
     var dropdownNotifications = document.getElementById('dropdown-notifications')
     var notifUserId = '{{ request.user.id }}'
     dropdownNotifications.addEventListener('click', function () {
-      console.log('hoyyyyy')
       $.get('/account/user_notifs/', { user_id: notifUserId }, function (data) {
         return
       }).then((data) => {
@@ -239,15 +254,16 @@
             } else {
               read = ''
             }
+
             $('#notifUl').append(
-              `<li><a class="dropdown-item user-notif-follow ${read}" href="account/profile/${data[i].user_id}">
-              <div>
-                <span>You have a new follower<span>
-                <div>
-                  <p class="notifMessage">${data[i].message}</p>
-                </div>
-              </div>
-            </a>`
+              `<li class="${read}">
+                  <div class="col-md-3 col-sm-3 col-xs-3 mr-2">
+                  <div class="notify-img"><img height="45" width="45" class="rounded-circle" src="${data[i].pic}" alt=""></div>
+                  </div>
+                  <div class="ml-2 col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="account/profile/${data[i].user_id}">${data[i].from_user}</a> started following you...
+                    <p class="time">${data[i].time}</p>
+                  </div>
+            	</li>`
             )
           }
         }
@@ -255,8 +271,6 @@
       })
 
     })
-
-    // websocket for notifications
 
     var loc = window.location
     var wsStart = "ws://"

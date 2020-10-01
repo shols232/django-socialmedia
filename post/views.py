@@ -10,47 +10,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-# class ContentCreateListView(LoginRequiredMixin,CreateView, ListView):
-#     model = Content
-#     context_object_name = 'contents'
-#     paginate_by = 5
-#     fields = ['content','image_content']
-#     success_url = '/post'
-#    # ordering = ["-posted"]
-#     template_name = 'post/content.html'
-
-#     def get_queryset(self):
-#         return Content.objects.order_by("-posted")
-
-#     def form_valid(self, form):
-#         print(form.instance)
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['tag_line'] = 'Add a new post'
-#         return context
-
-# class ContentCreateView(LoginRequiredMixin,CreateView):
-#     model = Content
-#     fields = ['content']
-#     context_object_name = 'contents'
-#     success_url = '/post'
-#     template_name = 'post/create.html'
-#     oo = Content.objects.filter(author=1)
-#     # for hii in oo:
-#     #     print(hii.author.user)
-#     def form_valid(self, form):
-#         print(form.instance)
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
-
-#     def get_context_data(self, **kwargs):
-#         data = super().get_context_data(**kwargs)
-#         data['tag_line'] = 'Add a new post'
-#         return data
-
 @login_required
 def content_list(request):
     contents = Content.objects.all().order_by('-posted')
@@ -60,6 +19,7 @@ def content_list(request):
     paginator = Paginator(contents, 5)
     page = request.GET.get('page')
     if request.method == 'POST':
+        print(request.POST)
         form = ContentForm(request.POST or None, request.FILES or None)
         if form.is_valid():           
             form.instance.author = request.user
@@ -115,19 +75,28 @@ def like_post(request):
         print(request.POST)
         post_id = request.POST['post_id']
         action = request.POST['action']
+        react = request.POST['react']
         user = request.user
         post = Content.objects.get(id=post_id)
         exists = post.likes.filter(username=user.username).exists()
 
         if exists:
             if action == 'unlike':
-                post.likes.remove(user)
+                if react == 'like':
+                    post.likes.remove(user)
+                elif react == 'love':
+                    post.loves.remove(user)
         else:
             if action == 'like':
-                post.likes.add(user)
+                if react == 'like':
+                    post.likes.add(user)
+                elif react == 'love':
+                    post.loves.remove(user)
         return JsonResponse({'success':True}, status=200)
     return HttpResponse({'message':'Sorry, You cannot perform that action'}, status=200)
     
+
+
             
 
 

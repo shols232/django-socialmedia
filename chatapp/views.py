@@ -47,12 +47,6 @@ def room(request, room_name=None):
                     'username': mark_safe(json.dumps(request.user.username)),
                 })
 
-# def serialize_contacts(username):
-#     data = Contact.objects.filter(user__username=username).first()
-#     serialized_contacts = []
-#     for contact in data:
-
-
 def get_last_100_messages(chat_id, request=None):
     try:
         chat = Chat.objects.get(id=chat_id)

@@ -6,8 +6,15 @@ from django.urls import reverse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.CharField(max_length=350)
+    bio = models.CharField(max_length=350, default='')
     image = models.ImageField(default='default/default.jpg')
+    date_of_birth = models.DateField(blank=True, null=True)
+    address = models.CharField(max_length=400, blank=True, null=True, default='')
+    country = models.CharField(max_length=200,blank=True, null=True, default='Afghanistan')
+    state = models.CharField(max_length=250, blank=True, null=True, default='')
+    phone_number = models.CharField(max_length=15, blank=True, null=True, default='')
+    work_exp = models.CharField(max_length=900, blank=True, null=True, default='')
+    extra_info = models.CharField(max_length=900, blank=True, null=True, default='')
 
     # def get_absolute_url(self):
     #     return reverse('profile', args=[self.user.id])
