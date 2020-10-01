@@ -8,5 +8,6 @@ urlpatterns = [
    # path('test', user_views.ContentCreateListView.as_view(), name = "list"),
    # path('create/', user_views.ContentCreateView.as_view(), name = "create"),
     path('comment/<int:content_id>', user_views.comment_post, name = "comment"),
-    path('react', user_views.like_post, name='react')
+    path('react', user_views.like_post, name='react'),
+    path('echo_post', user_views.echo_post)
 ]

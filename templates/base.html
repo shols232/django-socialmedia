@@ -115,7 +115,7 @@
   <div class="container-fluid">
   {% block navbar %}
   <div class="row">
-    <aside class="col-2 d-flex justify-content-center side-bar p-0">
+    <aside class="col-2 col-xs-0 d-flex justify-content-center side-bar p-0">
       <div class="text-center">
         <ul class="side-table">
           <center>
@@ -190,26 +190,54 @@
   <script>
     console.log('aliuuuuuuu')
     $('#modalLoginAvatar').on('show.bs.modal', function (event) {
+      // check if content in modal
+      var theModal = document.querySelector('.modal .modal-cardbox')
+      if (theModal){
+        console.log(theModal)
+        theModal.remove()
+      }
       var triggerElement = $(event.relatedTarget); // Button that triggered 
-      console.log(event, triggerElement, 'hhh')
       var cItem = triggerElement.parents('.cardbox')
-      console.log(cItem.children('.cardbox-item')[0])
-      var modalEcho = document.getElementById('modal-echo-body')
+      var postId = cItem.find('.reaction-like')[0].dataset.postid
+      console.log(cItem.children('.cardbox-item')[0], postId)
+      var container = document.getElementById('modal-echo-body')
+      var modalEcho = document.createElement('div')
       cHeading = cItem.find('.media')[0].cloneNode(true)
-      console.log(cHeading)
       cardBHead = document.createElement('div')
       cardBHead.appendChild(cHeading)
       cardBHead.className = 'cardbox-header modal-cardbox-header'
       modalEcho.append(cardBHead)
-      modalEcho.appendChild(cItem.children('.cardbox-item')[0].cloneNode(true))
+      cBoxItem = document.createElement('div')
+      cBoxItem.className = 'cardbox-item'
+      console.log(cItem.find('.cardbox-item-p'))
+      cBoxItem.appendChild(cItem.find('.cardbox-item-p')[0].cloneNode(true))
+      modalEcho.appendChild(cBoxItem)
+
       modalEcho.className = 'modal-cardbox'
+      container.append(modalEcho)
 
-
+      var submitBtn = document.getElementById('echo-submit-btn')
+      submitBtn.addEventListener('click', function(event){
+        var content = document.getElementById('echo_post_inp')
+        console.log('clicked','yooooooo', content,'oloyyyyyyyy',document.getElementById('echo_post_inp'))
+        $.post('/post/echo_post',
+            {
+                post_id: postId,
+                content:content.textContent
+            },
+            function(data){
+              console.log(data)
+              content.textContent = ''
+              $('#modalLoginAvatar').fadeOut(500, function(){
+                $('#modalLoginAvatar').modal('hide')
+              })
+            }
+        )
+      })
     });
 </script>
 
   <script>
-    
     function getToken(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {
