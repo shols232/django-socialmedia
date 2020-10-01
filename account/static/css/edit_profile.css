@@ -1,16 +1,16 @@
 /* Copy this code in your css file. */
-.container
+/* .edit-profile-container
 {
-    width: 500px;
-    margin: 20px auto;
-}
-
-.card{
 
     margin: 20px auto;
-}
+} */
 
-.preview
+/* .card{
+
+    margin: 20px auto;
+} */
+
+ .preview
 {
     padding: 10px;
     position: relative;
@@ -19,7 +19,9 @@
 .preview i
 {
     color: white;
-    font-size: 35px;
+    font-size: 25px;
+    position: relative;
+    top:-8px;
     transform: translate(50px,130px);
 }
 
@@ -31,12 +33,13 @@
 
 .browse-button
 {
-    width: 200px;
-    height: 200px;
+    width: 173px;
+    height: 160px;
+    padding-right:15px;
     border-radius: 100%;
     position: absolute; /* Tweak the position property if the element seems to be unfit */
     top: 10px;
-    left: 132px;
+    left: 8px;
     background: linear-gradient(180deg, transparent, black);
     opacity: 0;
     transition: 0.3s ease;
@@ -45,6 +48,7 @@
 .browse-button:hover
 {
     opacity: 1;
+    cursor: pointer;
 }
 
 .browse-input
@@ -55,7 +59,7 @@
     transform: translate(-1px,-26px);
     opacity: 0;
 }
-
+/*
 .form-group
 {
     width:  250px;
@@ -82,5 +86,50 @@
 .Back
 {
     font-size: 25px;
+}  */
+
+body {
+    background: rgb(255,255,255)
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
 }
 

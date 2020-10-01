@@ -7,11 +7,18 @@ from account.models import Profile
 
 
 class Content(models.Model):
+    parent = models.ForeignKey('self', related_name='echoes', null=True, blank=True, on_delete=models.SET_NULL)
     content = models.TextField(blank=True,null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name="content", on_delete=models.CASCADE)
     posted = models.DateTimeField(default=timezone.now)
     likes = models.ManyToManyField(User, related_name='my_likes')
+    loves = models.ManyToManyField(User, related_name="my_loves")
     image_content = models.ImageField(upload_to='content/', blank=True, null=True, default = None)
+
+
+    @property
+    def is_echo(self):
+        return self.parent != None
 
     # @property
     # def format_time(self):

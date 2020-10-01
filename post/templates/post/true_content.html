@@ -10,45 +10,10 @@
 
 
 {% block content %}
-<!-- <div class="row">
-<aside class="col-2 test side-bar " >
-    <div class="text-center">
-
-   
-     <ul class="side-table">
-        <center>   <li> <a class="side-item" href="{% url 'content' %}">
-                    <img src="{% static 'logo/void.png' %}" 
-                      alt="Void" class="Logo"> </a></li></center> 
-                <li>  <a class="side-item" href="{% url 'content' %}"><span class="material-icons side">
-                    home
-                    </span></a></li>
-                <li><a class="side-item" href="{% url 'chatapp:room_bare' %}"><span class="material-icons side">
-                    message
-                    </span></a></li>
-                <li> <a class="side-item" href="#"><span class="material-icons side">
-                    notification_important
-                    </span></a></li>
-                <li> <a class="side-item" href="{% url 'profile' request.user.id %}"><span class="material-icons side">
-                    account_circle
-                    </span></a></li>
-                <li><a class="side-item" href="{% url 'logout' %}"><span class="material-icons side">
-                    power_settings_new
-                    </span></a></li>
-                <li><a class="side-item" href="" data-toggle = 'modal' data-target='#exampleModal'><span class="material-icons side">
-                    add_circle
-                    </span></a></li>
-        
-            </ul>
-        </div>
-
-</aside> -->
-<aside class="col-sm-6 col-10 test right ">
+<aside class="col-sm-7 col-10 right ">
     <div class="post">
-
-
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-
             <p>
             <div class="img">
                 <img class="preview-img prev" src="{{form.image_content.url}}" />
@@ -57,15 +22,12 @@
                     close
                 </span>
             </div>
-
             <fieldset class="form-group">
                 <textarea name="{{form.content.name}}" id="id_{{form.content.name}}"
                     class="form-control id_{{form.content.name}}" style="display: none;"
                     placeholder="what's on your mind?"></textarea>
-
             </fieldset>
             <div id="content-preview">
-
                 <input type="file" name="{{form.image_content.name}}" id="id_{{form.image_content.name}}" class="image"
                     accept="image/*">
                 <label for="id_{{form.image_content.name}}"><span class="material-icons md-36 blueup label">
@@ -99,92 +61,10 @@
     <div class="infinite-container">
         {% include 'post/list_content.html' %}
     </div>
-    <!-- 
-<div class="modal fade " id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-          
-          <fieldset class="form-group">
-              <div class="img">
-                  <img class="preview-img prev" id="label-img" src="{{form.image_content.url}}"/>
-                  <hr>
-                  <span class="material-icons xmark xmark-label" >
-                      close
-                      </span>  
-              </div>
-          <textarea name="{{form.content.name}}" id="id_label_{{form.content.name}}" class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea>
-
-          <input type="file" name="{{form.image_content.name}}" id="label_{{form.image_content.name}}" class="image-label" accept="image/*">
-          <label for="label_{{form.image_content.name}}"><span class="material-icons md-36 label modellabel">
-              add_photo_alternate
-              </span>
-          </label>
-             </fieldset>
-      </div>
-
-          
-      
-      <div class="modal-footer">
-           
-          <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
-
-      </div>
-
-      {% for error in field.errors %}
-      <p style="color: red">{{ error }}</p>
-      {% endfor %}
-      </p>
-    </form>  
-    </div> -->
-
-
-    <!-- <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-<div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-
-        <div class="modal-body">
-            
-            <fieldset class="form-group">
-                <div class="img">
-                    <img class="preview-img prev" id="label-img" src="{{form.image_content.url}}"/>
-                    <hr>
-                    <span class="material-icons xmark xmark-label" >
-                        close
-                        </span>  
-                </div>
-            <textarea name="{{form.content.name}}" id="id_label_{{form.content.name}}" class="form-control" style="display: none;" placeholder="what's on your mind?"></textarea>
-
-            <input type="file" name="{{form.image_content.name}}" id="label_{{form.image_content.name}}" class="image-label" accept="image/*">
-            <label for="label_{{form.image_content.name}}"><span class="material-icons md-36 label modellabel">
-                add_photo_alternate
-                </span>
-            </label>
-               </fieldset>
-        </div>
-
-            
-        
-        <div class="modal-footer">
-             
-            <button class="btn btn-lg btn-primary text-uppercase" id="border" type="submit">Post</button>
-  
-        </div>
-
-        {% for error in field.errors %}
-        <p style="color: red">{{ error }}</p>
-        {% endfor %}
-        </p>
-      </div>
-    </form>   -->
 </aside>
 
 
-<aside class="col-sm-4 test ">
+<aside class="col-sm-3">
 </aside>
 </div>
 <!-- Button trigger modal -->

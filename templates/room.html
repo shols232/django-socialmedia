@@ -52,7 +52,7 @@
               <div class="meta">
                 <p class="name">{{chat.user_one.user.username}}</p>
               {% endifequal %}
-              <div class="preview" >{{chat.last_message|safe|truncatewords:30 }}{% if chat.last_message|length > 20 %}...{% endif %}</div>
+              <div class="preview" >{{chat.last_message|safe|truncatewords:45 }}{% if chat.last_message|length > 20 %}  ...{% endif %}</div>
               </div>
             </div>
           </li>
@@ -69,6 +69,9 @@
       <div class="contact-profile">
         <img src="{{ request.user.profile.image.url }}" alt="" />
         <p>{{ request.user.username }}</p>
+        <img id="backToChat" src="{% static 'back_button.png' %}" 
+        onclick="backToChat()" width="40" height="40" alt="" 
+        style="float: right; cursor: pointer; display: none;" class="mt-3">
       </div>
       {% endif %}
       <div class="messages">
@@ -76,6 +79,7 @@
           <!-- chat list items go in here -->
         </ul>
       </div>
+      {% if room_name_json %}
       <div class="message-input">
         <div class="wrap">
         <div id="chat-message-input" dir="auto" contenteditable="true" placeholder="Write your message..." >
@@ -86,6 +90,7 @@
         </button>
         </div>
       </div>
+      {% endif %}
     </div>
 
 <!-- Modal -->
@@ -94,8 +99,6 @@
 
   <!-- Add .modal-dialog-centered to .modal-dialog to vertically center the modal -->
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-
-
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Add Contacts</h5>
@@ -144,15 +147,12 @@
   const trigger = document.querySelector('.trigger');
 
   picker.on('emoji', selection => {
-    // console.log(trigger)
-    // trigger.removeChild(trigger.firstElementChild);
 
   // Add the new image for the new Twemoji
   const img = document.createElement('img');
   img.src = selection.url;
   img.alt = selection.emoji;
   img.className = 'emojiInputted'
-  // trigger.appendChild(img);
   document.getElementById("chat-message-input").appendChild(img);
 });
   console.log(picker)
@@ -191,8 +191,6 @@ $(document).ready( function(){
 
 function userAddChat(e){
   var id = e.dataset.chatid
-  console.log(id)
-
   $.get('/chat/create/new/', {'userid': id},   function(data){
     window.location.reload()
   })
@@ -200,12 +198,22 @@ function userAddChat(e){
 
 </script>
 
-
 {% if room_name_json %}
 <script>
   var roomName = {{ room_name_json }};
   var username = {{ username }};
   
+  function backToChat(){
+  window.location.href = '/chat'
+}
+
+  window.load = function(){
+    if (window.innerWidth < 740){
+              document.getElementById('sidepanel').style.display = 'none'
+              document.querySelector('.content').style.display = 'block'
+            }
+  }
+
   var tribute = new Tribute({
     // menuContainer: document.getElementById('content'),
     values: function(text, cb) {
@@ -250,6 +258,7 @@ function userAddChat(e){
 {% else %}
 <script>
 var contact = document.querySelectorAll('.contact')
+
   contact.forEach(item => {
     item.addEventListener('click', function(e){
       window.location.replace(window.location.origin + `/chat/${item.dataset.chatid}`)

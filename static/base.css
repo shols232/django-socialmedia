@@ -12,8 +12,15 @@
 }
 
 body{
-    background-color:grey;
+    background-color:#F4F2F2;
     /* display:flex; */
+}
+
+.sidebar-icon-text{
+  font-weight: 500;
+  color: deepskyblue;
+  font-size: 12.5px;
+  display: block;
 }
 .hide{
     display:hidden;
@@ -23,19 +30,89 @@ body{
     /* font-weight:bolder; */
 }
 
-.message-read{
-    background-color: rgb(151, 189, 189, 0.5);
-    border-bottom: solid 2px rgb(136, 66, 163, 0.35);
-    margin-bottom:0.3px;
-    transition: 0.2s all ease-in;
+
+/* notifications */
+
+.notify-drop-content {
+    min-height: 280px;
+    max-height: 480px;
+    overflow-y: scroll;
+  }
+
+.notify-drop-content a{
+    font-weight: bolder;
+    color:rgb(63, 3, 75)
 }
 
-.message-read:hover{
-    background-color: rgb(151, 189, 189, 0.65);
-    border-bottom: solid 2px rgb(136, 66, 163, 0.85);
+.notify-drop-content li {
+    border-bottom: 1px solid #e2e2e2;
+    padding: 10px 0px 9px 0px;
+    list-style-type: none;
+    transition: all 0.6s;
+  }
+
+.notify-drop-content .message-read {
+    background-color: #b6b3b3;
+  }
+
+.notify-drop-content li:hover {
+    background-color: #e0d9d9;
+  }
+.notify-drop-content li:last-child {
+    border-bottom: none;
+  }
+.notify-drop-content li .notify-img {
+    float: left;
+    display: inline-block;
+    width: 65px;
+    height: 65px;
+    margin: 0px 10px 8px 0px;
+  }
+
+.notify-drop-content li p.time {
+    font-size: 10px;
+    font-weight: 600;
+    margin: 8px 0px 0px 0px;
+  }
+
+.notif-num {
+    position:relative;
+    /* right:-5px; */
+    left: -21px;
+    top:-2px;
+    border-radius:50%;
+    background:#ff2c74;
+    font-weight: 600;
+    color:#fff;
+    line-height:25px;
+    font-family:sans-serif;
+    text-align:center;
+    padding: 2.2px 4.4px;
+}
+/* .notifications:hover .notif-num {
+    position:relative;
+    background:transparent;
+    color:#fff;
+    font-size:24px;
+    top:-4px;
+} */
+
+
+/* modal echo/retweet */
+.modal-cardbox{
+  margin-bottom: 20px;
+  border: 2px solid #b6b3b3;
+  border-right:none;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  padding: 14px;
 }
 
-.message-read span {
-    font-weight:500;
+#echo_post_inp{
+  border: none;
 }
 
+.modal-cardbox-header{
+  padding: 0 10px;
+  margin:0
+}
