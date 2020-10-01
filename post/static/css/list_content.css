@@ -73,7 +73,7 @@
   /* Cardbox Heading
   ---------------------------------- */
   .cardbox .cardbox-heading {
-    padding: 16px;
+    padding: 16px 16px 4px 13px;
     margin: 0;
   }
   .cardbox .btn-flat.btn-flat-icon {
@@ -162,7 +162,8 @@
       position: relative;
       display: block;
   }
-  .cardbox .cardbox-item img{
+  .cardbox-echo .carbox-item .img-fluid{
+    padding: 0 12px !important;
   }
   .img-responsive{
       display: block;

@@ -5,7 +5,7 @@ from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
-from .forms import ContentForm,CommentForm
+from .forms import ContentForm,CommentForm, OgPostForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -96,7 +96,21 @@ def like_post(request):
     return HttpResponse({'message':'Sorry, You cannot perform that action'}, status=200)
     
 
-
+def echo_post(request):
+    post_id = request.POST['post_id']
+    post = Content.objects.get(id=post_id)
+    print(request.POST)
+    form = ContentForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        print(obj, obj.parent)
+        obj.parent = post
+        obj.author = request.user
+        print(obj, obj.parent)
+        obj.save()
+        return JsonResponse({"success":True})
+    return JsonResponse({"success":False})
+    
             
 
 
