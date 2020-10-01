@@ -52,12 +52,12 @@ def comment_post(request, content_id):
             comment_qs = None
             if reply_id:
                 comment_qs = Comment.objects.get(id=reply_id)
-            new_comment.reply = comment_qs
             new_comment = comment_form.save(commit=False)          
             
             new_comment.post = content
             
             comment_form.instance.author = request.user
+            new_comment.reply = comment_qs
             new_comment.save()
             return redirect(request.path)
     else:
