@@ -7,8 +7,8 @@
   <div class="modal-dialog cascading-modal modal-avatar modal-lg" role="document">
     <!--Content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg" alt="avatar" class="rounded-circle img-responsive">
+      <div class="modal-header pb-0">
+        <img src="{{ request.user.profile.image.url }}" height="130" width="130" alt="avatar" class="rounded-circle">
       </div>
       <div class="modal-body mb-1">
         <div class="md-form mb-0 ml-0 mr-0">
@@ -18,7 +18,8 @@
 
         </div>
         <div class="text-center mt-4">
-          <button id="echo-submit-btn" class="btn btn-cyan mt-1">Echo</button>
+          <button id="echo-submit-btn" class="btn btn-cyan mt-1"
+          ><img src="{% static 'icons/echo_48.png' %}" height="27.5" width="27.5" alt=""> Echo</button>
         </div>
       </div>
     </div>
@@ -63,7 +64,7 @@
                 <img class="img-fluid" src="{{content.image_content.url}}" alt="Image">
                 <div class="mt-1 mb-1" style="border-bottom: 2px solid #f4f4f4;"></div>
                 {% endif %}
-                <p style="margin:0 auto; width:80%; overflow-wrap: break-word;">{{ content.content }}</p>
+                <p class="cardbox-item-p" style="margin:0 auto; width:80%; overflow-wrap: break-word;">{{ content.content }}</p>
                 {% if content.is_echo %}
                 <div class="cardbox mr-3 cardbox-echo bg-white mt-1">
                     <span class="echoed mt-3 mr-3"><img height="30" width="30" src="{% static 'icons/echo_48.png' %}" alt=""></span>

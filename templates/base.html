@@ -207,7 +207,12 @@
       cardBHead.appendChild(cHeading)
       cardBHead.className = 'cardbox-header modal-cardbox-header'
       modalEcho.append(cardBHead)
-      modalEcho.appendChild(cItem.children('.cardbox-item')[0].cloneNode(true))
+      cBoxItem = document.createElement('div')
+      cBoxItem.className = 'cardbox-item'
+      console.log(cItem.find('.cardbox-item-p'))
+      cBoxItem.appendChild(cItem.find('.cardbox-item-p')[0].cloneNode(true))
+      modalEcho.appendChild(cBoxItem)
+
       modalEcho.className = 'modal-cardbox'
       container.append(modalEcho)
 
